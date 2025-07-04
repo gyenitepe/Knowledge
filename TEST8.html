@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QBR Performance & Creative Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html { background: #f8fafc; }
+    body { font-family: 'Poppins', sans-serif; color: #1e293b; }
+    .chart-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      height: 350px;
+      max-height: 45vh;
+      background: white;
+      border-radius: 1.25rem; /* 2xl */
+      box-shadow: 0 1px 4px 0 rgba(30,41,59,.08);
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .active-tab {
+      background: #FF760D !important;
+      color: #fff !important;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+  <div class="min-h-screen w-full bg-slate-50 pb-16">
+    <!-- HEADER -->
+    <header class="w-full border-b border-slate-200 bg-white sticky top-0 z-10">
+      <div class="container mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#FF760D] flex items-center gap-2">
+          <span>QBR Dashboard</span>
+          <span class="ml-2 text-base font-medium text-[#1CAA53] bg-[#F7BACF] px-2 py-0.5 rounded-full">Demo</span>
+        </h1>
+        <nav class="hidden md:flex gap-6 text-base">
+          <a href="#overview" class="hover:text-[#FF760D]">Overview</a>
+          <a href="#performance" class="hover:text-[#FF760D]">Performance</a>
+          <a href="#strategy" class="hover:text-[#FF760D]">Growth</a>
+          <a href="#creative" class="hover:text-[#FF760D]">Creative</a>
+          <a href="#partners" class="hover:text-[#FF760D]">Partners</a>
+          <a href="#actions" class="hover:text-[#FF760D]">Actions</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container mx-auto max-w-6xl px-4 py-8">
+      <!-- SECTION: OVERVIEW -->
+      <section id="overview" class="mb-12">
+        <div class="mb-6">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D] mb-1 flex items-center gap-2">
+            <span>🚀 Executive Overview</span>
+          </h2>
+          <p class="text-base sm:text-lg text-slate-700">
+            This dashboard presents the latest <span class="text-[#FF9000] font-semibold">QBR</span> insights, blending commercial performance, creative collaboration, and partner strategy into an interactive view. Explore spend trends, KPIs, growth levers, and creative tests. Interact with the charts and sections for scenario exploration and detailed context.
+          </p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="bg-white rounded-2xl shadow p-5 border border-slate-200 flex flex-col items-center">
+            <div class="text-4xl font-bold text-[#FF760D] mb-1">$60K</div>
+            <div class="text-slate-600 text-sm">Peak Daily Spend</div>
+          </div>
+          <div class="bg-white rounded-2xl shadow p-5 border border-slate-200 flex flex-col items-center">
+            <div class="text-4xl font-bold text-[#1CAA53] mb-1">0.50%</div>
+            <div class="text-slate-600 text-sm">D1 ROAS (iOS)</div>
+          </div>
+          <div class="bg-white rounded-2xl shadow p-5 border border-slate-200 flex flex-col items-center">
+            <div class="text-4xl font-bold text-[#FF9000] mb-1">18%</div>
+            <div class="text-slate-600 text-sm">D28 Target Hit (Liftoff)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: PERFORMANCE DASHBOARD -->
+      <section id="performance" class="mb-12">
+        <div class="mb-6 flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D]">📊 Performance Dashboard</h2>
+          <span class="text-xs px-2 py-1 rounded bg-[#F7BACF] text-[#FF760D] font-medium">Interactive</span>
+        </div>
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="flex-1">
+            <div class="mb-4 text-slate-700">
+              <span class="font-semibold text-[#1e293b]">Spend Trends:</span> Chart below shows daily spend and D1 ROAS for the last 10 days, reflecting impact of the fixed bidding experiment.
+            </div>
+            <div class="chart-container mb-4">
+              <canvas id="spendTrendChart"></canvas>
+            </div>
+            <div class="flex gap-2 text-xs text-slate-500 items-center justify-center">
+              <span class="inline-block w-3 h-3 rounded-full bg-[#FF760D]"></span> Spend
+              <span class="inline-block w-3 h-3 rounded-full bg-[#1CAA53] ml-4"></span> D1 ROAS
+            </div>
+          </div>
+          <div class="flex-1 flex flex-col gap-6">
+            <div class="bg-white rounded-2xl shadow border border-slate-200 p-4 flex-1">
+              <div class="text-base font-semibold mb-2 text-[#FF9000]">Key KPIs (Last 7 Days)</div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <div class="text-2xl font-bold text-[#FF760D]">4.2%</div>
+                  <div class="text-slate-500 text-xs">D7 ROAS</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-[#1CAA53]">18%</div>
+                  <div class="text-slate-500 text-xs">D28 ROAS</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-[#FF9000]">$48K</div>
+                  <div class="text-slate-500 text-xs">Avg. Daily Spend</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-[#FF760D]">0.50%</div>
+                  <div class="text-slate-500 text-xs">D1 ROAS</div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow border border-slate-200 p-4 flex-1">
+              <div class="text-base font-semibold mb-2 text-[#FF9000]">OS Split</div>
+              <div class="chart-container" style="height:200px; max-width:300px;">
+                <canvas id="osSplitChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: GROWTH & SCALE STRATEGY -->
+      <section id="strategy" class="mb-12">
+        <div class="mb-6 flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D]">📈 Growth & Scale Scenarios</h2>
+          <span class="text-xs px-2 py-1 rounded bg-[#F7BACF] text-[#FF760D] font-medium">Scenario Explorer</span>
+        </div>
+        <div class="mb-4 text-slate-700">
+          Test how different payback windows and ROAS goals could impact recoup and profitability as the campaign scales up. Try toggling the scenario!
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-stretch">
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-5 flex-1 flex flex-col justify-between">
+            <div class="mb-2 flex gap-3">
+              <button onclick="setScenario('soft')" id="softBtn" class="rounded-full border border-slate-200 px-4 py-1 text-sm font-semibold mr-2 hover:bg-[#F7BACF]">Soft Launch</button>
+              <button onclick="setScenario('scale')" id="scaleBtn" class="rounded-full border border-slate-200 px-4 py-1 text-sm font-semibold hover:bg-[#FF9000]/10">Aggressive Scale</button>
+            </div>
+            <div class="chart-container" style="height:230px; max-width:450px;">
+              <canvas id="growthScenarioChart"></canvas>
+            </div>
+            <div id="scenarioDescription" class="text-xs text-slate-500 mt-2">
+              Soft launch: conservative growth, slower recoup, lower risk.
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-5 flex-1 flex flex-col justify-between">
+            <div class="text-base font-semibold text-[#FF9000] mb-3">Incentive Tracker</div>
+            <div class="mb-3 text-sm text-slate-700">Enter daily spend to estimate expected discount:</div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-slate-500">Spend:</span>
+              <input id="spendInput" type="number" value="35000" min="0" max="200000"
+                class="border border-slate-300 rounded px-2 py-1 w-32 text-base focus:outline-none focus:border-[#FF9000]" />
+              <span class="text-[#FF9000] font-semibold">$</span>
+            </div>
+            <div class="mb-2 text-sm text-slate-600">
+              <span class="font-medium text-[#FF760D]">10%</span> discount applies above $30k/day spend.
+            </div>
+            <div id="discountResult" class="bg-[#F7BACF] rounded px-4 py-2 font-bold text-[#FF760D] text-lg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: CREATIVE COLLABORATION -->
+      <section id="creative" class="mb-12">
+        <div class="mb-6 flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D]">🎨 Creative Collaboration</h2>
+          <span class="text-xs px-2 py-1 rounded bg-[#F7BACF] text-[#FF760D] font-medium">Formats & Approvals</span>
+        </div>
+        <div class="mb-3 text-slate-700">
+          The partnership focuses on scalable creative strategies—modular video, rewarded, and new LXA formats—while optimizing collaboration and approval flows. Hover or tap a card for format details and approval status.
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+          <!-- Creative Format Cards -->
+          <div class="group bg-white rounded-2xl border border-slate-200 shadow p-5 flex flex-col items-center text-center hover:shadow-lg transition">
+            <div class="text-3xl mb-2">🎬</div>
+            <div class="font-semibold text-[#FF760D]">Modular Video</div>
+            <div class="text-xs text-slate-500 mb-2">Mix gameplay + UGC in one flow</div>
+            <span class="rounded-full bg-[#1CAA53] text-white px-3 py-1 text-xs font-semibold mb-1">Approved</span>
+            <div class="opacity-0 group-hover:opacity-100 transition text-xs mt-2">Combinations must be visually consistent for approval.</div>
+          </div>
+          <div class="group bg-white rounded-2xl border border-slate-200 shadow p-5 flex flex-col items-center text-center hover:shadow-lg transition">
+            <div class="text-3xl mb-2">📱</div>
+            <div class="font-semibold text-[#FF760D]">LXA</div>
+            <div class="text-xs text-slate-500 mb-2">Auto-scaling, multi-theme, live on iOS/Android</div>
+            <span class="rounded-full bg-[#FF9000] text-white px-3 py-1 text-xs font-semibold mb-1">Conditionally Approved</span>
+            <div class="opacity-0 group-hover:opacity-100 transition text-xs mt-2">Sign-off needed for theme-mixed variants. Safe combos allowed.</div>
+          </div>
+          <div class="group bg-white rounded-2xl border border-slate-200 shadow p-5 flex flex-col items-center text-center hover:shadow-lg transition">
+            <div class="text-3xl mb-2">🎁</div>
+            <div class="font-semibold text-[#FF760D]">Rewarded</div>
+            <div class="text-xs text-slate-500 mb-2">CTA clarity, direct value to user</div>
+            <span class="rounded-full bg-[#1CAA53] text-white px-3 py-1 text-xs font-semibold mb-1">Approved</span>
+            <div class="opacity-0 group-hover:opacity-100 transition text-xs mt-2">Tested with various endcards. Must align with core game design.</div>
+          </div>
+          <div class="group bg-white rounded-2xl border border-slate-200 shadow p-5 flex flex-col items-center text-center hover:shadow-lg transition">
+            <div class="text-3xl mb-2">🤖</div>
+            <div class="font-semibold text-[#FF760D]">AI UGC</div>
+            <div class="text-xs text-slate-500 mb-2">Dynamic localization, scalable UGC</div>
+            <span class="rounded-full bg-[#FF9000] text-white px-3 py-1 text-xs font-semibold mb-1">To Be Tested</span>
+            <div class="opacity-0 group-hover:opacity-100 transition text-xs mt-2">Interest in AI-dubbed UGC, no in-game localization yet.</div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow border border-slate-200 p-5 mb-4">
+          <div class="font-semibold text-[#FF9000] mb-2">Creative Approvals & Collaboration Flow</div>
+          <ul class="list-disc pl-6 text-slate-600 text-sm mb-1">
+            <li>Full sign-off on safe creative combinations</li>
+            <li>Conditional sign-off for mixed/multi-theme assets</li>
+            <li>Always-on Slack channel for rapid asset review</li>
+            <li>Encourage asset sharing for high-performing creative production</li>
+            <li>LXA can auto-scale if safe, else requires visual consistency review</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-2xl shadow border border-slate-200 p-5">
+          <div class="font-semibold text-[#FF9000] mb-2">Analytics & Insights</div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <div class="text-xs mb-1 text-slate-500">Deeplink Analytics</div>
+              <div class="text-base text-[#1e293b] mb-1">Granular event tracking</div>
+              <div class="text-xs text-slate-600">Tested before, interest in summary conclusions that inform iterations.</div>
+            </div>
+            <div>
+              <div class="text-xs mb-1 text-slate-500">Creative Testing</div>
+              <div class="text-base text-[#1e293b] mb-1">Competitor Benchmarking</div>
+              <div class="text-xs text-slate-600">Compare IPM & CPI (anonymised) to refine mix.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: PARTNER MIX & COMPETITIVE -->
+      <section id="partners" class="mb-12">
+        <div class="mb-6 flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D]">🤝 Partner Mix & Competitive View</h2>
+          <span class="text-xs px-2 py-1 rounded bg-[#F7BACF] text-[#FF760D] font-medium">Partner SOW & Competitor Benchmarks</span>
+        </div>
+        <div class="mb-4 text-slate-700">
+          Liftoff’s SOW has grown to 18%, with Applovin still dominant. See partner breakdown and a generic competitor KPI comparison.
+        </div>
+        <div class="flex flex-col md:flex-row gap-7">
+          <div class="flex-1">
+            <div class="chart-container">
+              <canvas id="sowChart"></canvas>
+            </div>
+            <div class="flex justify-center gap-3 mt-2 text-xs">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 inline-block rounded-full bg-[#FF760D]"></span>Applovin</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 inline-block rounded-full bg-[#1CAA53]"></span>Liftoff</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 inline-block rounded-full bg-[#FF9000]"></span>Unity</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 inline-block rounded-full bg-slate-400"></span>Moloco</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 inline-block rounded-full bg-pink-300"></span>Others</span>
+            </div>
+          </div>
+          <div class="flex-1 bg-white rounded-2xl shadow border border-slate-200 p-5 flex flex-col">
+            <div class="font-semibold text-[#FF9000] mb-2">Competitor KPI Comparison (Anonymised)</div>
+            <table class="w-full text-sm text-left text-slate-700">
+              <thead>
+                <tr>
+                  <th class="font-semibold text-[#FF760D] py-1">Network</th>
+                  <th class="font-semibold text-[#FF760D] py-1">IPM</th>
+                  <th class="font-semibold text-[#FF760D] py-1">CPI</th>
+                  <th class="font-semibold text-[#FF760D] py-1">ROAS D28</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Competitor A</td>
+                  <td>28</td>
+                  <td>$1.50</td>
+                  <td>16%</td>
+                </tr>
+                <tr>
+                  <td>Competitor B</td>
+                  <td>32</td>
+                  <td>$1.70</td>
+                  <td>17.5%</td>
+                </tr>
+                <tr>
+                  <td>Liftoff</td>
+                  <td>30</td>
+                  <td>$1.60</td>
+                  <td>18%</td>
+                </tr>
+                <tr>
+                  <td>Competitor C</td>
+                  <td>25</td>
+                  <td>$1.80</td>
+                  <td>14%</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-xs text-slate-500 mt-3">*KPIs are anonymised and indicative.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: CHALLENGES & ACTIONS -->
+      <section id="actions" class="mb-12">
+        <div class="mb-6 flex items-center gap-3">
+          <h2 class="text-xl sm:text-2xl font-semibold text-[#FF760D]">⚡ Challenges, Risks & Next Actions</h2>
+          <span class="text-xs px-2 py-1 rounded bg-[#F7BACF] text-[#FF760D] font-medium">Track Progress</span>
+        </div>
+        <div class="mb-4 text-slate-700">
+          Key concerns, mitigation strategies, and owner assignments. Expand each item for context and mark as addressed for tracking.
+        </div>
+        <div class="space-y-4">
+          <!-- Action Item 1 -->
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-4">
+            <div class="flex justify-between items-center">
+              <button onclick="toggleExpand('act1')" class="text-lg font-semibold text-[#FF9000] flex items-center gap-2 focus:outline-none">
+                <span id="act1Arrow" class="transition">&#9654;</span>
+                Track & Communicate Discounts
+              </button>
+              <span id="act1Done" class="bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-400 font-semibold">Pending</span>
+            </div>
+            <div id="act1Content" class="hidden mt-2 text-sm text-slate-600">
+              <span class="font-semibold text-[#FF760D]">Issue:</span> The 10% rebate on spend above $30k/day is hard for client to track, which delays scaling. <br>
+              <span class="font-semibold text-[#1CAA53]">Action:</span> Implement a transparent, real-time incentive tracker (see above) and communicate rebate breakdown weekly.
+            </div>
+          </div>
+          <!-- Action Item 2 -->
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-4">
+            <div class="flex justify-between items-center">
+              <button onclick="toggleExpand('act2')" class="text-lg font-semibold text-[#FF9000] flex items-center gap-2 focus:outline-none">
+                <span id="act2Arrow" class="transition">&#9654;</span>
+                Android: Prevent Churn, Find Performance
+              </button>
+              <span id="act2Done" class="bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-400 font-semibold">Pending</span>
+            </div>
+            <div id="act2Content" class="hidden mt-2 text-sm text-slate-600">
+              <span class="font-semibold text-[#FF760D]">Issue:</span> Android lagging; risk of 2-week pause if performance doesn't improve. <br>
+              <span class="font-semibold text-[#1CAA53]">Action:</span> Test fixed bidding for Android, enhance creative mix, and monitor KPIs closely.
+            </div>
+          </div>
+          <!-- Action Item 3 -->
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-4">
+            <div class="flex justify-between items-center">
+              <button onclick="toggleExpand('act3')" class="text-lg font-semibold text-[#FF9000] flex items-center gap-2 focus:outline-none">
+                <span id="act3Arrow" class="transition">&#9654;</span>
+                Creative Asset Handoff & Consistency
+              </button>
+              <span id="act3Done" class="bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-400 font-semibold">Pending</span>
+            </div>
+            <div id="act3Content" class="hidden mt-2 text-sm text-slate-600">
+              <span class="font-semibold text-[#FF760D]">Issue:</span> Delays and mismatches in creative asset sharing, risk of inconsistent visuals. <br>
+              <span class="font-semibold text-[#1CAA53]">Action:</span> Streamline asset sharing (Slack), get clear up-front approval on safe combos, and increase documentation of “best practices.”
+            </div>
+          </div>
+          <!-- Action Item 4 -->
+          <div class="bg-white rounded-2xl shadow border border-slate-200 p-4">
+            <div class="flex justify-between items-center">
+              <button onclick="toggleExpand('act4')" class="text-lg font-semibold text-[#FF9000] flex items-center gap-2 focus:outline-none">
+                <span id="act4Arrow" class="transition">&#9654;</span>
+                JP/KR & Localization
+              </button>
+              <span id="act4Done" class="bg-slate-100 rounded-full px-3 py-1 text-xs text-slate-400 font-semibold">Pending</span>
+            </div>
+            <div id="act4Content" class="hidden mt-2 text-sm text-slate-600">
+              <span class="font-semibold text-[#FF760D]">Issue:</span> Underperformance in Japan & Korea, lack of localised ads. <br>
+              <span class="font-semibold text-[#1CAA53]">Action:</span> Pilot AI-dubbed localizations for ads, review asset needs, and propose test creative sets for these geos.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-slate-200 bg-white">
+      <div class="container mx-auto max-w-6xl px-4 py-5 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400">
+        <span>
+          QBR Dashboard &copy; 2024 — Powered by <span class="text-[#FF760D] font-bold">Liftoff</span>
+        </span>
+        <span>
+          SPA UI &bull; Tailwind CSS &bull; Chart.js
+        </span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JS DATA + INTERACTIVITY -->
+  <script>
+    // ---------- Data for charts ----------
+    // Spend & ROAS trend (10 days, mock data)
+    const spendData = [12000, 13500, 9000, 11000, 15000, 22000, 23000, 26000, 45000, 60000];
+    const roasD1 = [0.45, 0.48, 0.50, 0.47, 0.49, 0.50, 0.51, 0.50, 0.50, 0.50];
+    const spendLabels = [
+      "6/18", "6/19", "6/20", "6/21", "6/22", "6/23", "6/24", "6/25", "6/26", "6/27"
+    ];
+
+    // OS Split
+    const osSplitData = [50, 50];
+
+    // Growth scenarios (soft vs scale)
+    const scenarios = {
+      soft: {
+        label: "Soft Launch",
+        recoup: [10, 18],
+        spend: [20000, 30000],
+        roas: [4, 18],
+        description: "Soft launch: conservative growth, slower recoup, lower risk."
+      },
+      scale: {
+        label: "Aggressive Scale",
+        recoup: [8, 25],
+        spend: [45000, 90000],
+        roas: [3.5, 16],
+        description: "Aggressive scale: faster growth, higher risk, longer payback."
+      }
+    };
+    let currentScenario = 'soft';
+
+    // SOW by network
+    const sowLabels = ["Applovin", "Liftoff", "Unity", "Moloco", "Others"];
+    const sowData = [50, 18, 15, 7, 10];
+
+    // ---------- Chart.js Charts ----------
+    // Spend & ROAS trend
+    const spendTrendChart = new Chart(document.getElementById('spendTrendChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: spendLabels,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Spend',
+            data: spendData,
+            backgroundColor: "#FF760D",
+            borderRadius: 7,
+            yAxisID: 'y'
+          },
+          {
+            type: 'line',
+            label: 'D1 ROAS',
+            data: roasD1.map(x => x * 100),
+            borderColor: "#1CAA53",
+            backgroundColor: "#1CAA53",
+            tension: 0.4,
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Spend ($)', color: '#334155', font: { weight: 'bold' }},
+            ticks: { color: "#1e293b", callback: v => "$" + v }
+          },
+          y1: {
+            beginAtZero: true,
+            position: 'right',
+            title: { display: true, text: 'D1 ROAS (%)', color: '#334155', font: { weight: 'bold' }},
+            grid: { drawOnChartArea: false },
+            ticks: { color: "#1CAA53", callback: v => v + "%" }
+          }
+        }
+      }
+    });
+
+    // OS Split Pie
+    new Chart(document.getElementById('osSplitChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['iOS', 'Android'],
+        datasets: [{
+          data: osSplitData,
+          backgroundColor: ["#FF760D", "#1CAA53"],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '65%',
+        plugins: {
+          legend: { display: true, position: 'bottom', labels: { color: "#334155" } },
+          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}%` } }
+        }
+      }
+    });
+
+    // Growth Scenario Chart (Payback Window vs ROAS)
+    let growthScenarioChart;
+    function drawGrowthScenario(scenario) {
+      if (growthScenarioChart) growthScenarioChart.destroy();
+      growthScenarioChart = new Chart(document.getElementById('growthScenarioChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["D7", "D28"],
+          datasets: [
+            {
+              label: 'Payback Window (%)',
+              data: scenarios[scenario].recoup,
+              backgroundColor: "#FF760D",
+              borderRadius: 8,
+              yAxisID: 'y'
+            },
+            {
+              label: 'ROAS (%)',
+              data: scenarios[scenario].roas,
+              backgroundColor: "#1CAA53",
+              borderRadius: 8,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: { mode: 'index', intersect: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Payback (%)', color: '#334155', font: { weight: 'bold' }},
+              ticks: { color: "#1e293b", callback: v => v + "%" }
+            },
+            y1: {
+              beginAtZero: true,
+              position: 'right',
+              title: { display: true, text: 'ROAS (%)', color: '#334155', font: { weight: 'bold' }},
+              grid: { drawOnChartArea: false },
+              ticks: { color: "#1CAA53", callback: v => v + "%" }
+            }
+          }
+        }
+      });
+      document.getElementById('scenarioDescription').innerText = scenarios[scenario].description;
+    }
+    drawGrowthScenario(currentScenario);
+
+    // SOW Pie
+    new Chart(document.getElementById('sowChart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: sowLabels,
+        datasets: [{
+          data: sowData,
+          backgroundColor: [
+            "#FF760D", "#1CAA53", "#FF9000", "#94a3b8", "#F7BACF"
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '65%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}%` } }
+        }
+      }
+    });
+
+    // ---------- Interactivity ----------
+    // Scenario toggling
+    function setScenario(scenario) {
+      currentScenario = scenario;
+      drawGrowthScenario(scenario);
+      document.getElementById('softBtn').classList.toggle('active-tab', scenario === 'soft');
+      document.getElementById('scaleBtn').classList.toggle('active-tab', scenario === 'scale');
+    }
+    document.getElementById('softBtn').classList.add('active-tab');
+
+    // Incentive Tracker
+    function updateDiscount() {
+      const spend = Number(document.getElementById('spendInput').value) || 0;
+      let discount = 0;
+      if (spend > 30000) discount = 0.1 * (spend - 30000);
+      document.getElementById('discountResult').innerText =
+        discount > 0
+        ? `Estimated discount: $${discount.toLocaleString(undefined,{maximumFractionDigits:0})}`
+        : 'No discount (spend below $30k)';
+    }
+    document.getElementById('spendInput').addEventListener('input', updateDiscount);
+    updateDiscount();
+
+    // Expand/collapse actions
+    function toggleExpand(id) {
+      const content = document.getElementById(id + 'Content');
+      const arrow = document.getElementById(id + 'Arrow');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        arrow.innerHTML = "&#9660;";
+      } else {
+        content.classList.add('hidden');
+        arrow.innerHTML = "&#9654;";
+      }
+    }
+  </script>
+</body>
+</html>
