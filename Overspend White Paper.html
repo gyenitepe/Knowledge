@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>White Paper: July 4, 2025 iOS Spend Spike Incident Report</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #f8fafc; color: #1e293b; }
+    .chart-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      height: 350px;
+      max-height: 45vh;
+      background: #fff;
+      border-radius: 1.25rem; /* 2xl */
+      box-shadow: 0 2px 8px 0 #F7BACF33;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tab-btn.active {
+      background: #FF9000;
+      color: #fff;
+    }
+    .tab-btn:not(.active):hover {
+      background: #fef3c7;
+    }
+    .status-dot {
+      width: 0.75rem; height: 0.75rem; border-radius: 9999px; display: inline-block; margin-right: 0.5rem;
+    }
+    /* Hide sections for tabs */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50">
+  <div class="w-full min-h-screen flex flex-col items-center px-2 md:px-6 py-8">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg px-4 py-6 md:px-12 md:py-10 border border-slate-200">
+      <!-- Header -->
+      <header class="mb-6">
+        <h1 class="text-3xl md:text-4xl font-bold text-[#FF760D]">White Paper: July 4, 2025 iOS Spend Spike</h1>
+        <p class="mt-3 text-lg text-slate-700">A comprehensive interactive incident analysis & response overview</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="inline-flex items-center px-3 py-1 bg-[#F7BACF] text-xs rounded-full font-semibold text-[#1e293b]">Incident Date: July 4, 2025</span>
+          <span class="inline-flex items-center px-3 py-1 bg-[#FF9000] text-xs rounded-full font-semibold text-white">Report Updated: July 10, 2025</span>
+        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex flex-wrap gap-2 mb-8">
+        <button class="tab-btn active px-5 py-2 rounded-xl font-semibold text-sm transition focus:outline-none" data-tab="overview">Overview</button>
+        <button class="tab-btn px-5 py-2 rounded-xl font-semibold text-sm transition focus:outline-none" data-tab="goals">Goals & Milestones</button>
+        <button class="tab-btn px-5 py-2 rounded-xl font-semibold text-sm transition focus:outline-none" data-tab="workstreams">Workstreams</button>
+        <button class="tab-btn px-5 py-2 rounded-xl font-semibold text-sm transition focus:outline-none" data-tab="comms">Communications</button>
+        <button class="tab-btn px-5 py-2 rounded-xl font-semibold text-sm transition focus:outline-none" data-tab="postmortem">Postmortem & Hardening</button>
+      </nav>
+
+      <!-- Tab Content Sections -->
+      <section class="tab-content active" id="overview">
+        <!-- Incident Overview -->
+        <h2 class="text-2xl font-semibold text-[#FF760D] mb-3">Incident Overview</h2>
+        <p class="mb-4">
+          On <b>July 4, 2025 at 8:40 PM PDT</b>, an experimental model (<span class="font-semibold">Galapagos ITI</span>) suffered severe overcalibration, leading to a gross revenue (GR) spike of approximately <span class="font-bold text-[#FF760D]">$8 million</span> within just 30 minutes.
+          <br>
+          Most campaigns spent <span class="font-semibold">3–5x</span> their daily cap during this period. The majority (~<span class="font-semibold">$7M</span>) of the overspend was on <span class="font-semibold">non-VX exchanges</span>.
+        </p>
+        <div class="grid md:grid-cols-2 gap-6 mb-6">
+          <!-- Key Facts Card -->
+          <div class="bg-[#FFF9F3] border border-[#FF9000] rounded-xl p-5 shadow-sm flex flex-col gap-2">
+            <h3 class="text-lg font-bold mb-2 text-[#FF760D] flex items-center">
+              <span class="material-icons-outlined text-[#FF760D] mr-2">bolt</span>
+              Key Facts
+            </h3>
+            <ul class="list-disc list-inside text-sm space-y-1">
+              <li><b>Time of spike:</b> 8:40pm–9:10pm PT, July 4</li>
+              <li><b>Total overspend:</b> ~$8M</li>
+              <li><b>Non-VX exchanges:</b> ~$7M overspend</li>
+              <li><b>Spending rate:</b> 3–5x daily cap in 30 min</li>
+              <li><b>Model affected:</b> Galapagos ITI</li>
+              <li><b>Immediate response:</b> Notified advertisers, publishers, and exchanges; launched engineering investigation</li>
+            </ul>
+          </div>
+          <!-- Spend Spike Chart -->
+          <div>
+            <div class="chart-container">
+              <canvas id="spendChart"></canvas>
+            </div>
+            <p class="mt-2 text-xs text-slate-500 text-center">Spend spike visualization: July 4, 8:30–9:30pm PT</p>
+          </div>
+        </div>
+        <div class="bg-[#F7BACF] rounded-lg p-4 text-sm mt-4 mb-2">
+          <b>Note on Android:</b> Performance degradation on Android observed since July 2 is <b>not believed to be related</b> to this iOS incident and is being investigated separately.
+        </div>
+      </section>
+
+      <section class="tab-content" id="goals">
+        <h2 class="text-2xl font-semibold text-[#FF760D] mb-3">Response Goals & Milestones</h2>
+        <p class="mb-5">The recovery plan focuses on three major parallel tracks, each with concrete milestones and timelines:</p>
+        <!-- Milestone Tracker -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <!-- Track 1 -->
+          <div class="bg-white border-2 border-[#FF9000] rounded-xl p-4">
+            <h3 class="font-bold text-lg mb-1 text-[#FF760D]">1. Return to Health</h3>
+            <ul class="text-sm space-y-1">
+              <li>Restore model health & performance</li>
+              <li><span class="status-dot bg-[#1CAA53]"></span><b>ETA:</b> End of this week</li>
+            </ul>
+          </div>
+          <!-- Track 2 -->
+          <div class="bg-white border-2 border-[#FF9000] rounded-xl p-4">
+            <h3 class="font-bold text-lg mb-1 text-[#FF760D]">2. Recoup</h3>
+            <ul class="text-sm space-y-1">
+              <li>Work with exchanges to recoup overspend, contain financial damage</li>
+              <li><span class="status-dot bg-[#FF9000]"></span><b>ETA:</b> 2 weeks</li>
+            </ul>
+          </div>
+          <!-- Track 3 -->
+          <div class="bg-white border-2 border-[#FF9000] rounded-xl p-4">
+            <h3 class="font-bold text-lg mb-1 text-[#FF760D]">3. Hardening</h3>
+            <ul class="text-sm space-y-1">
+              <li>Upgrade systems to prevent future breakages</li>
+              <li>
+                <span class="status-dot bg-[#FF760D]"></span>
+                <b>Short Term:</b> 5 safety measures [ETA: End of week]
+              </li>
+              <li>
+                <span class="status-dot bg-[#1e293b]"></span>
+                <b>Long Term:</b> Ongoing system improvements
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Immediate and Long Term Actions -->
+        <div class="mb-8">
+          <h4 class="font-semibold text-md mb-2 text-[#FF760D]">Immediate Safety Measures</h4>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>New thresholds for “too good to be true” metric changes</li>
+            <li>Intensive monitoring and real-time alerts for abnormal spend</li>
+            <li>Manual review triggers for suspicious model promotions</li>
+            <li>Rapid communication protocols across all key partners</li>
+            <li>Dedicated engineering weekend support</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-md mb-2 text-[#FF760D]">Long Term System Hardening</h4>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>Automated, robust guardrails for all high-velocity model changes</li>
+            <li>Tiered response automation for anomaly spikes</li>
+            <li>Ongoing reviews and stress-testing of spend logic</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="tab-content" id="workstreams">
+        <h2 class="text-2xl font-semibold text-[#FF760D] mb-3">Workstreams & Incident Management</h2>
+        <p class="mb-6">Each stream addresses specific facets of the response, with DRIs (Directly Responsible Individuals) and explicit exit criteria.</p>
+        <!-- Workstreams Table -->
+        <div class="overflow-x-auto mb-6">
+          <table class="min-w-full border border-slate-200 text-sm rounded-lg overflow-hidden">
+            <thead class="bg-[#FFF9F3] text-[#FF760D] font-semibold">
+              <tr>
+                <th class="px-3 py-2 text-left">Stream</th>
+                <th class="px-3 py-2 text-left">DRIs</th>
+                <th class="px-3 py-2 text-left">Status & Actions</th>
+                <th class="px-3 py-2 text-left">Exit Criteria</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t">
+                <td class="px-3 py-2">Continuity & Model Safety</td>
+                <td class="px-3 py-2">
+                  Ben Young<br>
+                  Model: Wojciech Kazana<br>
+                  Spend: Brian Zhou
+                </td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>Automatic promotion resumed</li>
+                    <li>New thresholds implemented</li>
+                    <li>48h stable bidding</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <span class="status-dot bg-[#1CAA53]"></span>
+                  <b>Stable by Jul 10, 2025</b>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="px-3 py-2">Advertiser Makegoods</td>
+                <td class="px-3 py-2">
+                  Jessica Dudley, Joey Fulcher, Beebe Sanders<br>
+                  Analysis: Andy Thompson
+                </td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>Guidance shared with AMs (7/6)</li>
+                    <li>AMs reaching out to top customers</li>
+                    <li>FAQs, docs, and tracking ongoing</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <b>Scrubbed data by 7/10</b>,<br>
+                  <b>Yellow account actions by 7/18</b>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="px-3 py-2">Non-VX Exchanges</td>
+                <td class="px-3 py-2">Scott Silverman, Michael Deignan<br>Analysis: Emma Sun, Hammond Guerin</td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>CPM by format & exchange tracked</li>
+                    <li>Comms with exchanges ongoing</li>
+                    <li>Refund negotiation in progress</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <b>Refund agreements [TBD]</b>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="px-3 py-2">VX Channel</td>
+                <td class="px-3 py-2">R&D: Mian Leow<br>Commercial: Tanya Lee, Kevin Teng<br>Analytics: Bruno Meyer</td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>Data scrubbed from reports</li>
+                    <li>Publisher comms started</li>
+                    <li>AdMob negotiation this week</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <b>y% recouped [TBD]</b>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="px-3 py-2">R&D - Postmortem</td>
+                <td class="px-3 py-2">Igor Kalevatykh</td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>Root cause deep dive</li>
+                    <li>Safety check audit</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <b>Curated mitigations list</b>
+                </td>
+              </tr>
+              <tr class="border-t">
+                <td class="px-3 py-2">R&D - Hardening</td>
+                <td class="px-3 py-2">Ben Young</td>
+                <td class="px-3 py-2">
+                  <ul class="list-disc list-inside">
+                    <li>Immediate fixes by Jul 10</li>
+                    <li>Longer-term resourced for Q3</li>
+                  </ul>
+                </td>
+                <td class="px-3 py-2">
+                  <b>Immediate + roadmap mitigations</b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-xs text-slate-500">
+          * See "Continuity," "Hardening," and other docs for further technical detail. Support: Bo Chen, Ben Young. Additional: Kenneth Lin.
+        </div>
+      </section>
+
+      <section class="tab-content" id="comms">
+        <h2 class="text-2xl font-semibold text-[#FF760D] mb-3">Communications & Channels</h2>
+        <p class="mb-3">Open, stream-specific communication channels were established for rapid cross-team collaboration and transparency.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="font-semibold text-md text-[#FF760D] mb-2">Economic Streams</h3>
+            <ul class="list-disc list-inside text-sm mb-3">
+              <li>Non-VX Exchanges: <span class="font-mono text-[#FF760D]">#overspend-2025-07-04-supply-strategy</span></li>
+              <li>VX: <span class="font-mono text-[#FF760D]">#overspend-2025-07-04-supply-strategy</span></li>
+              <li>Advertisers: <span class="font-mono text-[#FF760D]">#overspend-2025-07-04-advertiser-strategy</span></li>
+            </ul>
+            <h3 class="font-semibold text-md text-[#FF760D] mb-2">Technical Streams</h3>
+            <ul class="list-disc list-inside text-sm mb-3">
+              <li>Postmortem: <span class="font-mono text-[#FF760D]">#eng-overspend-2025-07-04-post-mortem</span></li>
+            </ul>
+            <h3 class="font-semibold text-md text-[#FF760D] mb-2">Other Threads</h3>
+            <ul class="list-disc list-inside text-sm">
+              <li>Initial spike: <span class="font-mono text-[#FF760D]">#prod initial spend spike</span></li>
+              <li>AMs: <span class="font-mono text-[#FF760D]">#temp-july4-overspend-commercial</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-md text-[#FF760D] mb-2">Key Documents</h3>
+            <ul class="list-disc list-inside text-sm mb-3">
+              <li>Customer overspend & outreach tracking</li>
+              <li>Demand recoup strategy</li>
+              <li>Guidance on customer comms</li>
+            </ul>
+            <h3 class="font-semibold text-md text-[#FF760D] mb-2">Guiding Principles</h3>
+            <ul class="list-disc list-inside text-sm">
+              <li>Prioritize longevity of customer relationships</li>
+              <li>Contain economic damage</li>
+              <li>Protect organizational reputation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-6">
+          <h4 class="font-semibold text-md text-[#FF760D] mb-1">Advertiser Makegoods: Timeline</h4>
+          <ul class="list-disc list-inside text-sm">
+            <li>Phase 1: Data scrubbed for select customers by <b>7/10</b></li>
+            <li>All "yellow" accounts acted on by <b>7/18</b></li>
+            <li>Feedback collection on makegood expectations/sentiments</li>
+            <li>Additional phases determined after Phase 1</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="tab-content" id="postmortem">
+        <h2 class="text-2xl font-semibold text-[#FF760D] mb-3">Postmortem & System Hardening</h2>
+        <p class="mb-3">A rigorous postmortem and multi-pronged mitigation effort is underway to ensure this type of event does not recur.</p>
+        <div class="mb-5">
+          <h3 class="font-semibold text-md mb-2 text-[#FF760D]">Root Cause Analysis</h3>
+          <ul class="list-disc list-inside text-sm mb-3">
+            <li>Severe overcalibration of Galapagos ITI experimental model triggered a spend spike.</li>
+            <li>Multiple safety checks failed to halt runaway spend.</li>
+            <li>Abnormal metrics not flagged as “too good to be true.”</li>
+          </ul>
+          <p class="text-xs text-slate-500">See root cause doc and <span class="font-mono text-[#FF760D]">#eng-overspend-2025-07-04-post-mortem</span> thread for detailed timeline and data.</p>
+        </div>
+        <div class="mb-5">
+          <h3 class="font-semibold text-md mb-2 text-[#FF760D]">Mitigation Actions</h3>
+          <ul class="list-disc list-inside text-sm">
+            <li>Immediate safety measures all rolled out by <b>July 10, 2025</b></li>
+            <li>Long-term hardening items injected into Q3 engineering roadmaps (<b>resourced by July 16</b>)</li>
+            <li>Ongoing stress tests and reviews for new model launches</li>
+            <li>Comprehensive documentation of mitigations and learnings</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold text-md mb-2 text-[#FF760D]">Lessons Learned</h3>
+          <ul class="list-disc list-inside text-sm">
+            <li>Redundant and multi-layered safety is required at all stages of spend velocity.</li>
+            <li>Communication must be fast, targeted, and multi-stream.</li>
+            <li>Customer trust and financial stability are top priorities post-incident.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer class="mt-10 w-full max-w-4xl text-center text-xs text-slate-500">
+      &copy; 2025 | July 4 iOS Spend Spike White Paper | Built for clarity and resilience.
+    </footer>
+  </div>
+  <script>
+    // Tab Navigation Logic
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Spend Spike Chart.js
+    const ctx = document.getElementById('spendChart').getContext('2d');
+    // Synthetic data for illustrative spike
+    const spendData = {
+      labels: [
+        '8:30', '8:35', '8:40', '8:45', '8:50', '8:55', '9:00', '9:05', '9:10', '9:15', '9:20', '9:25', '9:30'
+      ],
+      datasets: [{
+        label: 'iOS Spend ($M)',
+        data: [0.5, 0.7, 1.1, 2.4, 4.8, 6.2, 8.0, 5.2, 2.1, 1.0, 0.8, 0.7, 0.6],
+        fill: true,
+        backgroundColor: 'rgba(255,118,13,0.13)',
+        borderColor: '#FF760D',
+        pointBackgroundColor: '#FF9000',
+        pointRadius: 5,
+        tension: 0.38
+      }]
+    };
+    new Chart(ctx, {
+      type: 'line',
+      data: spendData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => ` $${ctx.parsed.y.toFixed(2)}M`
+            },
+            backgroundColor: "#FF760D",
+            titleColor: "#fff",
+            bodyColor: "#fff"
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Spend ($M)', color: '#1e293b' },
+            grid: { color: '#F7BACF', borderColor: '#F7BACF' },
+            ticks: { color: '#1e293b' }
+          },
+          x: {
+            title: { display: true, text: 'Time (PDT)', color: '#1e293b' },
+            grid: { color: '#F7BACF', borderColor: '#F7BACF' },
+            ticks: { color: '#1e293b' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
