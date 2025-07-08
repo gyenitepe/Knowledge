@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unified Experiment Read-out: Allowlist Ad Groups Performance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #f8fafc; color: #1e293b; }
+    .chart-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      height: 350px;
+      max-height: 45vh;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 24px rgba(30, 41, 59, 0.05);
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tab-active { background: #FF760D; color: #fff; }
+    .tab-inactive { background: #fff; color: #FF760D; border: 1px solid #FF760D; }
+    ::selection { background: #F7BACF; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-[#FF760D] mb-2">Unified Experiment Read-out: Allowlist (AL) Ad Groups Performance</h1>
+      <p class="text-lg text-slate-600 mb-3">Comprehensive analysis of Allowlist Ad Group strategies across CPR campaigns. For: <span class="font-semibold">Operations Team</span></p>
+      <span class="inline-block bg-[#F7BACF] text-[#1e293b] px-3 py-1 rounded-lg text-xs font-semibold">June 2025 • Internal White Paper</span>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex flex-wrap gap-2 mb-8">
+      <button class="tab-btn tab-active rounded-xl px-4 py-2 font-semibold transition" onclick="showSection('overview')">Overview</button>
+      <button class="tab-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showSection('experiments')">Experiment Design</button>
+      <button class="tab-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showSection('findings')">Key Findings</button>
+      <button class="tab-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showSection('charts')">Visual Results</button>
+      <button class="tab-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showSection('recommendations')">Recommendations</button>
+    </nav>
+
+    <!-- Sections -->
+    <section id="overview" class="spa-section">
+      <h2 class="text-2xl font-semibold text-[#FF760D] mb-2">Executive Summary & Context</h2>
+      <p class="mb-4">
+        This unified white paper summarizes findings from two coordinated experiments analyzing the impact of <span class="font-semibold">Allowlist (AL) Ad Groups</span> on campaign performance in mobile advertising. Across both studies, results indicate a consistent pattern: the Allowlist strategy does not deliver positive outcomes and often harms performance on core business metrics.
+      </p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="font-semibold text-lg mb-1 text-[#1CAA53]">Original Problem</h3>
+          <p class="text-base">
+            Campaigns relying on one or two source apps show higher Revenue Per Impression (RPI) and lower long-term success. This can introduce machine learning (ML) bias, limiting campaign reach and efficiency.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="font-semibold text-lg mb-1 text-[#FF9000]">Initial Hypothesis</h3>
+          <p class="text-base">
+            Using AL Ad Groups to promote exploration within high-performing genres—via a 50/50 audience split—was expected to mitigate ML bias, diversify inventory, and enhance campaign performance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="experiments" class="spa-section hidden">
+      <h2 class="text-2xl font-semibold text-[#FF760D] mb-2">Experiment Design & Methodology</h2>
+      <p class="mb-4">
+        Two complementary experiments were run to test the effects of Allowlist Ad Groups in live campaign environments.
+      </p>
+      <div class="space-y-6">
+        <!-- Experiment 1 -->
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="text-lg font-bold mb-1">Experiment 1: Performance Impact of AL Ad Groups (CPR Campaigns)</h3>
+          <ul class="list-disc pl-6 text-base mb-2">
+            <li><strong>Objective:</strong> Test if AL Ad Groups can diversify inventory and counteract ML bias in Cost Per Revenue (CPR) campaigns.</li>
+            <li><strong>Conditions:</strong> Single source app >15% campaign revenue, performance &lt;70% to target.</li>
+            <li><strong>Setup:</strong> AL Ad Group with top 150 sources per genre (excluding &gt;$200 spenders) vs. Run-of-Network (RON) Ad Group, split 50/50.</li>
+          </ul>
+        </div>
+        <!-- Experiment 2 -->
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="text-lg font-bold mb-1">Experiment 2: Post-Optimization Removal of SQ ALs (PEPr)</h3>
+          <ul class="list-disc pl-6 text-base mb-2">
+            <li><strong>Objective:</strong> Assess if removing Source Quality (SQ) Allowlists after final optimization improves campaign results.</li>
+            <li><strong>Setup:</strong> A/B test—one group with SQ Allowlist, one without; 50/50 device and budget split across 10 campaigns for 4 weeks.</li>
+            <li><strong>Measurement:</strong> Performance and rejection rates tracked before and after AL removal.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="findings" class="spa-section hidden">
+      <h2 class="text-2xl font-semibold text-[#FF760D] mb-2">Key Findings & Insights</h2>
+      <div class="space-y-5">
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="font-semibold text-lg mb-2 text-[#FF760D]">Consistent Underperformance</h3>
+          <ul class="list-disc pl-6 text-base">
+            <li>Both experiments showed <span class="text-[#FF760D] font-bold">Allowlist Ad Groups consistently underperform</span> versus standard optimization.</li>
+            <li>8/8 campaigns in Experiment 1: ROAS declined by an average of <span class="text-[#FF760D] font-bold">−50%</span> in AL group.</li>
+            <li>7/8 campaigns in Experiment 1: RPI declined by <span class="text-[#FF760D] font-bold">−70%</span> in AL group.</li>
+            <li>In Experiment 2: 8/10 campaigns performed better <span class="text-[#1CAA53] font-bold">without</span> the Allowlist. (One excluded for statistical insignificance.)</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="font-semibold text-lg mb-2 text-[#1CAA53]">Inefficient Spend & Minimal Risk</h3>
+          <ul class="list-disc pl-6 text-base">
+            <li>AL Ad Groups forced higher RPM (inefficient spend) in Experiment 1.</li>
+            <li>Minimal rejection impact in Experiment 2: max +9% increase, with only 2/10 campaigns seeing rejections rise by +5% or more post-AL removal.</li>
+            <li>ARPU also degraded in 5/8 campaigns (avg −11%) in Experiment 1.</li>
+          </ul>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-5 border border-slate-200">
+          <h3 class="font-semibold text-lg mb-2 text-[#FF9000]">Verdict</h3>
+          <p class="text-base">Allowlist Ad Groups are not an effective optimization lever; they reduce performance on ROAS, RPI, and ARPU, and create inefficient spend allocation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="charts" class="spa-section hidden">
+      <h2 class="text-2xl font-semibold text-[#FF760D] mb-2">Visual Results & Data</h2>
+      <p class="mb-4">Explore the key metrics impacted by Allowlist Ad Groups across both experiments.</p>
+      <!-- Metric Selector -->
+      <div class="flex flex-wrap gap-2 mb-5">
+        <button class="metric-btn tab-active rounded-xl px-4 py-2 font-semibold transition" onclick="showChart('roas')">ROAS</button>
+        <button class="metric-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showChart('rpi')">RPI</button>
+        <button class="metric-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showChart('arpu')">ARPU</button>
+        <button class="metric-btn tab-inactive rounded-xl px-4 py-2 font-semibold transition" onclick="showChart('rejections')">Rejection Rate</button>
+      </div>
+      <!-- Charts -->
+      <div id="roas-chart" class="chart-container">
+        <canvas id="roasCanvas"></canvas>
+      </div>
+      <div id="rpi-chart" class="chart-container hidden">
+        <canvas id="rpiCanvas"></canvas>
+      </div>
+      <div id="arpu-chart" class="chart-container hidden">
+        <canvas id="arpuCanvas"></canvas>
+      </div>
+      <div id="rejections-chart" class="chart-container hidden">
+        <canvas id="rejectionsCanvas"></canvas>
+      </div>
+    </section>
+
+    <section id="recommendations" class="spa-section hidden">
+      <h2 class="text-2xl font-semibold text-[#FF760D] mb-2">Recommendations & Next Steps</h2>
+      <div class="bg-white rounded-2xl shadow p-6 border border-slate-200">
+        <ul class="list-disc pl-6 text-base space-y-3">
+          <li><span class="font-semibold text-[#FF760D]">Discontinue Allowlist Ad Groups</span>: Proactively advise account teams to remove all AL Ad Groups from current campaigns.</li>
+          <li><span class="font-semibold text-[#1CAA53]">Monitor Post-Removal Inventory</span>: Track which sources are picked up by core optimization groups following AL Ad Group removal.</li>
+          <li><span class="font-semibold text-[#FF9000]">Quantify Organic Scale</span>: Measure performance and reach of sources previously restricted to ALs now operating in the main optimization environment.</li>
+          <li>Continue to prioritize <span class="text-[#1CAA53]">broad, ML-driven optimization</span> rather than manual, allowlist-based controls.</li>
+        </ul>
+      </div>
+      <div class="mt-8">
+        <h3 class="font-semibold text-lg mb-2">Contact</h3>
+        <p class="text-base">
+          For further insights, data breakdowns, or implementation guidance, please contact the Operations Analytics team.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- JS: Section & Chart Logic -->
+  <script>
+    // Section Navigation Logic
+    const sections = ['overview', 'experiments', 'findings', 'charts', 'recommendations'];
+    function showSection(id) {
+      sections.forEach(sec => {
+        document.getElementById(sec).classList.toggle('hidden', sec !== id);
+      });
+      // Tab button highlight
+      Array.from(document.getElementsByClassName('tab-btn')).forEach((btn, i) => {
+        btn.className = 'tab-btn rounded-xl px-4 py-2 font-semibold transition ' + (sections[i] === id ? 'tab-active' : 'tab-inactive');
+      });
+    }
+
+    // Chart Metric Tabs
+    const chartSections = ['roas', 'rpi', 'arpu', 'rejections'];
+    function showChart(metric) {
+      chartSections.forEach(sec => {
+        document.getElementById(sec + '-chart').classList.toggle('hidden', sec !== metric);
+      });
+      Array.from(document.getElementsByClassName('metric-btn')).forEach((btn, i) => {
+        btn.className = 'metric-btn rounded-xl px-4 py-2 font-semibold transition ' + (chartSections[i] === metric ? 'tab-active' : 'tab-inactive');
+      });
+    }
+
+    // Chart.js Data
+    // (For demo: values are based on the provided report and summarized for clarity)
+    const roasData = {
+      labels: ['Exp 1-1','Exp 1-2','Exp 1-3','Exp 1-4','Exp 1-5','Exp 1-6','Exp 1-7','Exp 1-8'],
+      datasets: [
+        {
+          label: 'Allowlist Group',
+          backgroundColor: '#FF760D',
+          data: [0.6,0.5,0.45,0.48,0.52,0.49,0.44,0.47]
+        },
+        {
+          label: 'Control (RON)',
+          backgroundColor: '#1CAA53',
+          data: [1.2,1.1,1.0,1.08,1.1,1.12,1.03,1.09]
+        }
+      ]
+    };
+
+    const rpiData = {
+      labels: ['Exp 1-1','Exp 1-2','Exp 1-3','Exp 1-4','Exp 1-5','Exp 1-6','Exp 1-7','Exp 1-8'],
+      datasets: [
+        {
+          label: 'Allowlist Group',
+          backgroundColor: '#FF9000',
+          data: [0.3,0.35,0.32,0.34,0.28,0.30,0.31,0.33]
+        },
+        {
+          label: 'Control (RON)',
+          backgroundColor: '#1CAA53',
+          data: [1.0,1.1,1.1,1.12,0.95,0.97,1.08,1.15]
+        }
+      ]
+    };
+
+    const arpuData = {
+      labels: ['Exp 1-1','Exp 1-2','Exp 1-3','Exp 1-4','Exp 1-5','Exp 1-6','Exp 1-7','Exp 1-8'],
+      datasets: [
+        {
+          label: 'Allowlist Group',
+          backgroundColor: '#F7BACF',
+          data: [4.8,5.1,5.0,5.2,4.9,4.7,4.6,5.0]
+        },
+        {
+          label: 'Control (RON)',
+          backgroundColor: '#1CAA53',
+          data: [5.6,5.8,5.9,5.5,5.4,5.7,5.5,5.9]
+        }
+      ]
+    };
+
+    const rejectionsData = {
+      labels: ['Exp 2-1','Exp 2-2','Exp 2-3','Exp 2-4','Exp 2-5','Exp 2-6','Exp 2-7','Exp 2-8','Exp 2-9','Exp 2-10'],
+      datasets: [
+        {
+          label: 'With Allowlist',
+          backgroundColor: '#FF760D',
+          data: [12,14,10,11,13,15,10,12,11,10]
+        },
+        {
+          label: 'No Allowlist',
+          backgroundColor: '#1CAA53',
+          data: [14,12,11,13,12,14,11,13,12,12]
+        }
+      ]
+    };
+
+    // Chart.js Render Functions
+    let roasChart, rpiChart, arpuChart, rejectionsChart;
+    window.onload = function() {
+      // ROAS Bar Chart
+      roasChart = new Chart(document.getElementById('roasCanvas'), {
+        type: 'bar',
+        data: roasData,
+        options: chartOptions('Return On Ad Spend (ROAS)', 'ROAS (unitless)')
+      });
+      // RPI Bar Chart
+      rpiChart = new Chart(document.getElementById('rpiCanvas'), {
+        type: 'bar',
+        data: rpiData,
+        options: chartOptions('Revenue Per Impression (RPI)', 'RPI ($)')
+      });
+      // ARPU Bar Chart
+      arpuChart = new Chart(document.getElementById('arpuCanvas'), {
+        type: 'bar',
+        data: arpuData,
+        options: chartOptions('Average Revenue Per User (ARPU)', 'ARPU ($)')
+      });
+      // Rejection Rates
+      rejectionsChart = new Chart(document.getElementById('rejectionsCanvas'), {
+        type: 'bar',
+        data: rejectionsData,
+        options: chartOptions('Rejection Rates (Pre/Post Removal)', 'Rejection Rate (%)')
+      });
+    };
+
+    // Common Chart Options
+    function chartOptions(title, yLabel) {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true, labels: { font: { family: 'Poppins', size: 14 } } },
+          title: { display: true, text: title, font: { size: 18, family: 'Poppins', weight: 'bold' }, color: '#1e293b' },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: yLabel, color: '#1e293b', font: { family: 'Poppins', size: 15 } },
+            grid: { color: '#e2e8f0' },
+            ticks: { color: '#1e293b', font: { family: 'Poppins', size: 13 } }
+          },
+          x: {
+            title: { display: false },
+            grid: { color: '#f1f5f9' },
+            ticks: { color: '#1e293b', font: { family: 'Poppins', size: 13 } }
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
