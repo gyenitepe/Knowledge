@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Business Optimization Playbook | Interactive SPA</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    html, body { font-family: 'Poppins', 'sans-serif'; background: #f8fafc; color: #1e293b; }
+    .chart-container { width: 100%; max-width: 700px; margin: 0 auto; background: #fff; border-radius: 1.25rem; box-shadow: 0 2px 16px 0 #f7bacf50; padding: 1.5rem; height: 350px; max-height: 45vh; }
+    .accordion-content { transition: max-height 0.3s cubic-bezier(.4,0,.2,1); overflow: hidden; }
+    .section-anchor { scroll-margin-top: 96px; }
+    .highlight { color: #FF760D; font-weight: 600; }
+    .btn-primary { background: #FF760D; color: #fff; }
+    .btn-primary:hover { background: #FF9000; }
+    .tag { background: #F7BACF; color: #1e293b; padding: 0.25em 0.75em; border-radius: 1em; font-size: 0.875em; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- HEADER / NAV -->
+  <header class="sticky top-0 z-30 bg-white shadow flex flex-col sm:flex-row sm:justify-between items-center px-4 py-4 gap-2">
+    <div class="flex items-center gap-3">
+      <span class="inline-block text-2xl font-extrabold tracking-tight text-[#FF760D]">NB Optimization Playbook</span>
+      <span class="tag hidden sm:inline-block">Q4 2024</span>
+    </div>
+    <nav class="flex gap-2 flex-wrap">
+      <a href="#dashboard" class="hover:text-[#FF760D] font-medium">Dashboard</a>
+      <a href="#launch-checklist" class="hover:text-[#FF760D] font-medium">Launch Best Practices</a>
+      <a href="#ttg-checklist" class="hover:text-[#FF760D] font-medium">Time to Goal</a>
+      <a href="#issues" class="hover:text-[#FF760D] font-medium">Issue Playbook</a>
+      <a href="#resources" class="hover:text-[#FF760D] font-medium">Resources</a>
+      <a href="https://forms.gle/ZWF8SYL4HAcqmHAE8" target="_blank" class="btn-primary rounded-lg px-3 py-1 ml-2 text-sm font-semibold">Submit Issue/FAQ</a>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-8 py-8 flex flex-col gap-10">
+
+    <!-- SECTION: DASHBOARD -->
+    <section id="dashboard" class="section-anchor">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
+        <span>📊</span>Q4 2024 Issue Dashboard
+      </h2>
+      <p class="mb-5 text-slate-600">Explore the frequency and churn risk of common campaign issues and optimization requests encountered in Q4 2024. Click bars for definitions and solution shortcuts.</p>
+      <div class="chart-container mb-3">
+        <canvas id="issuesChart"></canvas>
+      </div>
+      <div id="issueDefBox" class="mt-3 hidden rounded-xl border border-slate-200 bg-[#fff8f3] p-4 text-[#FF760D] font-medium"></div>
+    </section>
+
+    <!-- SECTION: LAUNCH BEST PRACTICES -->
+    <section id="launch-checklist" class="section-anchor">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
+        <span>🚀</span>Launch Best Practices Checklist
+      </h2>
+      <p class="mb-5 text-slate-600">Follow this interactive checklist to ensure new campaigns are launched with robust measurement, event, and creative setups. Click each step for details.</p>
+      <ol class="grid gap-3">
+        <!-- Each step as collapsible panel -->
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="1">
+            1. Learn about proper attribution windows from the start
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <ul class="list-disc ml-5 mb-2">
+              <li>Check if <b>Viewthrough Attribution</b> is available</li>
+              <li>Confirm <b>Probabilistic Attribution</b> is enabled</li>
+              <li>Determine attribution windows for VT/CT</li>
+              <li>Ensure receipt of unattributed install/event postbacks</li>
+              <li>Check openness to Banner/Native ads</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="2">
+            2. Identify the correct goal & launch campaigns per user flow
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>If no intermediary events correlate to the final event/goal, <b>contact NB Perf Strat</b> for support.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="3">
+            3. Make sure events are received properly (Attributed/Unattributed)
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700"></div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="4">
+            4. Identify the revenue-contributing App Event
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Ensure <b>no duplicate revenue events</b> (e.g., FTD + Purchase passing revenue) exist.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="5">
+            5. No placeholders as intermediary/final events
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Double-check after launch, especially if events were missing at setup.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="6">
+            6. Relaunched apps: ensure correct events targeted
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Confirm event mapping if advertisers updated events while paused.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="7">
+            7. Disable Advanced Privacy Mode (Appsflyer)
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700"></div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="8">
+            8. Client provides creatives for every Ad format
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Recommended: 6 creatives per slot per format.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="9">
+            9. Campaign set up with MAF AGs
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Breaking ad formats into several SAF AGs can bring risk. Prefer MAF AGs for healthy setup.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION: TIME TO GOAL CHECKLIST -->
+    <section id="ttg-checklist" class="section-anchor">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
+        <span>⏳</span>Checklist: Time To Goal (TTG) Phase
+      </h2>
+      <p class="mb-5 text-slate-600">Improve campaign velocity and reduce risk during TTG. Expand steps for guidance.</p>
+      <ol class="grid gap-3">
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="ttg-1">
+            1. Order intermediary events correctly
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Prevents models from jumping between events, which delays goal attainment.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="ttg-2">
+            2. Monitor evolution of event counts
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Adjust events if there are too many intermediary events slowing the funnel.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="ttg-3">
+            3. Check event counts at campaign level
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Estimate realistic time to goal for each campaign.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="ttg-4">
+            4. Monitor campaigns >7 days without final optimization
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Take action to push toward final optimization if delay persists.</p>
+          </div>
+        </li>
+        <li>
+          <button class="accordion-btn w-full text-left bg-[#f8fafc] hover:bg-[#fff6e9] px-4 py-3 rounded-lg border border-slate-200 flex justify-between items-center font-semibold text-base" data-step="ttg-5">
+            5. Verify accuracy of IAB Category
+            <span class="ml-2 transition-transform">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 bg-[#fff] px-6 py-2 text-sm text-slate-700">
+            <p>Ensures campaigns target correct source pools for the app type.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION: ISSUE PLAYBOOK -->
+    <section id="issues" class="section-anchor">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
+        <span>🛠️</span>Issue Playbook & Solutions
+      </h2>
+      <p class="mb-5 text-slate-600">Tap each issue for the ideal diagnosis flow and resolution checklist. Jump to issue via dashboard or browse below.</p>
+      <!-- Issue Accordions -->
+      <div id="issuesAccordion" class="space-y-4">
+        <!-- Rendered by JS based on issuesData -->
+      </div>
+    </section>
+
+    <!-- SECTION: RESOURCES -->
+    <section id="resources" class="section-anchor">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-2 flex items-center gap-2">
+        <span>📚</span>Resources & Quick Links
+      </h2>
+      <p class="mb-5 text-slate-600">Key dashboards, training, and playbooks referenced above:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <a href="https://forms.gle/ZWF8SYL4HAcqmHAE8" target="_blank" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 bg-white hover:shadow-md transition">
+          <span class="text-2xl">📝</span>
+          <div>
+            <div class="font-bold text-[#FF760D]">Submit New Issue/FAQ</div>
+            <div class="text-xs text-slate-500">Google Form: Track new challenges</div>
+          </div>
+        </a>
+        <div class="flex flex-col gap-2">
+          <div class="font-semibold">Frequently Referenced:</div>
+          <ul class="ml-3 text-sm text-[#FF760D] space-y-1">
+            <li>• Exploration Training (Learn Phase)</li>
+            <li>• Optimization Sync Playbook</li>
+            <li>• Faster TTG: Process & FAQs</li>
+            <li>• RL/GL Dashboard</li>
+            <li>• Simple Performance Check</li>
+            <li>• New Correlation Dash</li>
+            <li>• Unattributed Data Dashboard</li>
+            <li>• IPM and ITA Trend</li>
+            <li>• NB Optimization Req EMEA (Slack, example issues)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-10 mb-2 text-center text-xs text-slate-400">
+      &copy; 2024 New Business Optimization Playbook | Interactive SPA. Powered by Tailwind, Chart.js, and good playbooks.
+    </footer>
+  </main>
+
+  <!-- JS DATA & LOGIC -->
+  <script>
+    // ------------- Issue Data for Chart + Definitions -------------
+    const issuesData = [
+      {
+        key: "Low ROAS Performance",
+        requests: 21, churn: 3.10,
+        def: "<b>Low ROAS Performance/High RPA:</b> CPR model at final optimization but underperforming vs client goals.",
+        solutions: [
+          "Review <b>Red Light Green Light dashboard</b> for improvement suggestions by exchange/genre/ad type.",
+          "Consider lowering campaign margin (see Margin Adjustment Framework).",
+          "Check for duplicate revenue events skewing CPR optimization.",
+          "Test switching to CPA optimization if CPR is underperforming.",
+          "Refresh creatives if current set is stale or over-indexed.",
+          "Review rejected installs in Rejected Installs Dashboard, and escalate per MMP Playbook.",
+          "Update source app blocklist using flagged source dashboard.",
+          "Investigate uncredited installs via dashboard and Lessonly.",
+          "Analyze funnel events for ITI/IPM/ITA shifts (see IPM & ITA trend).",
+          "Consider concurrent CPA optimization for additional KPIs."
+        ]
+      },
+      {
+        key: "PA instance",
+        requests: 19, churn: 1.32,
+        def: "<b>PA Instance:</b> Requests actioned by Prialto ticket (blocklist, GEO removal, creative pausing, budget changes).",
+        solutions: [
+          "Use Salesforce to submit Prialto ticket.",
+          "Blocklisting: Refer to dashboard; escalate if blocked revenue >10%.",
+          "GEO removal: Use Looker for GEO performance.",
+          "Creative pausing: Use Looker to identify high spend/low performance creatives."
+        ]
+      },
+      {
+        key: "Strategical suggestion inquiry",
+        requests: 16, churn: 1.38,
+        def: "<b>Strategical Suggestion Inquiry:</b> Scaling/creative/model advice, event types, retention KPIs, allowlist feasibility.",
+        solutions: [
+          "Contact Performance Strategy team for ideal setups, retention KPI handling, and allowlist discussions.",
+          "Decide on model (CPA/CPR/CPI) as needed.",
+          "AEs: Use CATs for Day of Week setup."
+        ]
+      },
+      {
+        key: "Technical Issue",
+        requests: 10, churn: 3.00,
+        def: "<b>Technical Issue:</b> Attribution, postback, event breakages, setup errors.",
+        solutions: [
+          "Raise urgent issues on Slack channel.",
+          "Diagnose: Overspend, App2Web, MMP, event breakages, Windows campaign, wrong event setups."
+        ]
+      },
+      {
+        key: "Raising RPIs",
+        requests: 9, churn: 2.00,
+        def: "<b>Raising RPIs:</b> Increasing RPIs for same campaign; often iGaming T2/T3, narrow GEOs, high rejections.",
+        solutions: [
+          "Check if RPI increase is consistent across formats.",
+          "Ensure Viewthrough Attribution (VT) is enabled and window is broad.",
+          "Analyze rejections for trends aligning with RPI increase.",
+          "Check creative and RPI trends for each format.",
+          "Use RPI Balancer for new AG optimization if needed.",
+          "Wait 1 week after model transitions before acting.",
+          "Reduce impression pacing and increase VC for high uncredited installs.",
+          "If all else fails, monitor unattributed install trend dashboard."
+        ]
+      },
+      {
+        key: "Long Time to Goal",
+        requests: 8, churn: 3.25,
+        def: "<b>Long Time to Goal:</b> Slow learning phase (2–4 weeks), especially on Android/iOS without ideal intermediary events.",
+        solutions: [
+          "Adjust spend split (e.g., switch from 50-50% to 90-10% Optimization/Exploration after 2 weeks if slow).",
+          "Consider Early CPA/CPR if risk of churn (min event counts required).",
+          "Implement virtual events if intermediary events are missing/uncorrelated.",
+          "As last resort, explore custom allowlists (may increase CPI risk).",
+          "Dilute margin to boost learning if app has high upside but early sensitivity."
+        ]
+      },
+      {
+        key: "Budget increase - ROAS Drop",
+        requests: 6, churn: 2.83,
+        def: "<b>Budget Increase - ROAS Drop:</b> ROAS drops after budget increases.",
+        solutions: [
+          "Identify sources/creatives with increased spend after budget change.",
+          "Apply budget increases incrementally (<50% of total budget at once).",
+          "Submit Salesforce ticket for planned, staged increases if needed."
+        ]
+      },
+      {
+        key: "High RPA",
+        requests: 6, churn: 3.33,
+        def: "<b>High RPA:</b> High revenue per action; often overlaps with Low ROAS/High RPI. See those playbooks for solutions.",
+        solutions: [
+          "Follow Low ROAS/High RPI root cause analysis.",
+          "Re-examine revenue events and model KPIs."
+        ]
+      },
+      {
+        key: "Fraud",
+        requests: 3, churn: 2.00,
+        def: "<b>Fraud:</b> Often Android CPI campaigns at launch, seen via cheap installs, low install-to-event%, low ROAS.",
+        solutions: [
+          "SQ allowlist at launch (default for Android).",
+          "If extreme low quality, flag via Slack and escalate to Supply Quality team.",
+          "Monitor for spikes in cheap installs, low conversion."
+        ]
+      },
+    ];
+
+    // Map issue key to index for quick lookup
+    const issueKeyIndex = Object.fromEntries(issuesData.map((d, i) => [d.key, i]));
+
+    // ----------- Chart.js: Render Issues Chart -----------
+    const chartColors = [
+      "#FF760D", "#FF9000", "#1CAA53", "#F7BACF", "#1e293b", "#f8fafc", "#2dd4bf", "#fbbf24", "#e11d48"
+    ];
+    const ctx = document.getElementById("issuesChart").getContext("2d");
+    const issuesChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: issuesData.map(d => d.key),
+        datasets: [
+          {
+            label: "Request Count",
+            data: issuesData.map(d => d.requests),
+            backgroundColor: chartColors,
+            yAxisID: 'A',
+          },
+          {
+            label: "Churn Risk Score",
+            data: issuesData.map(d => d.churn),
+            type: 'line',
+            borderColor: "#FF760D",
+            backgroundColor: "rgba(255, 118, 13, 0.10)",
+            pointBackgroundColor: "#FF760D",
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            yAxisID: 'B',
+            fill: false,
+            tension: 0.35
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+          A: {
+            type: 'linear',
+            position: 'left',
+            beginAtZero: true,
+            title: { display: true, text: "Request Count" },
+            grid: { color: "#F7BACF" }
+          },
+          B: {
+            type: 'linear',
+            position: 'right',
+            beginAtZero: true,
+            min: 1,
+            max: 5,
+            title: { display: true, text: "Churn Risk Score" },
+            grid: { drawOnChartArea: false }
+          }
+        },
+        plugins: {
+          legend: { display: true, position: 'bottom' },
+          tooltip: {
+            callbacks: {
+              title: (items) => items[0].label,
+              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}`
+            }
+          }
+        },
+        onClick: function(evt, elements) {
+          if (elements && elements.length) {
+            const idx = elements[0].index;
+            showIssueDef(idx);
+            // Scroll to issue playbook
+            setTimeout(() => {
+              document.getElementById('issues').scrollIntoView({behavior: "smooth"});
+              document.getElementById('issue-card-'+idx)?.classList.add('ring-2', 'ring-[#FF9000]');
+              setTimeout(()=>document.getElementById('issue-card-'+idx)?.classList.remove('ring-2','ring-[#FF9000]'),1500);
+            }, 200);
+          }
+        }
+      }
+    });
+
+    function showIssueDef(idx) {
+      const box = document.getElementById('issueDefBox');
+      box.innerHTML = `<div class="mb-1">${issuesData[idx].def}</div>
+        <a href="#issue-card-${idx}" class="inline-block btn-primary px-3 py-1 mt-2 rounded-lg text-sm">Jump to solution ⟶</a>`;
+      box.classList.remove('hidden');
+      box.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    // ------------- Accordions (Launch + TTG) -------------
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const content = btn.nextElementSibling;
+        const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+        if (!isOpen) {
+          content.style.maxHeight = content.scrollHeight + "px";
+          btn.querySelector('span').style.transform = "rotate(180deg)";
+        } else {
+          btn.querySelector('span').style.transform = "rotate(0deg)";
+        }
+      });
+    });
+
+    // ------------- Render Issue Playbook -------------
+    function renderIssuesAccordion() {
+      const container = document.getElementById('issuesAccordion');
+      container.innerHTML = issuesData.map((issue, idx) => `
+        <div id="issue-card-${idx}" class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+          <button class="accordion-btn w-full flex items-center justify-between text-left px-6 py-4 font-semibold text-lg hover:bg-[#fff6e9] transition" data-issue="${idx}">
+            <span><span class="highlight">${issue.key}</span>
+              <span class="ml-2 text-xs text-slate-500">Requests: ${issue.requests} | Churn: ${issue.churn.toFixed(2)}</span>
+            </span>
+            <span class="ml-2">&#9660;</span>
+          </button>
+          <div class="accordion-content max-h-0 px-7 pb-4 text-base text-slate-700">
+            <div class="mb-3">${issue.def}</div>
+            <div class="font-semibold text-sm mb-2 text-[#FF760D]">Solution Steps:</div>
+            <ul class="list-decimal ml-5 space-y-1">
+              ${issue.solutions.map(step => `<li>${step}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('');
+      // Add event listeners
+      container.querySelectorAll('.accordion-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const content = btn.nextElementSibling;
+          const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+          document.querySelectorAll('#issuesAccordion .accordion-content').forEach(c => c.style.maxHeight = null);
+          document.querySelectorAll('#issuesAccordion .accordion-btn span:last-child').forEach(s=>s.style.transform="rotate(0deg)");
+          if (!isOpen) {
+            content.style.maxHeight = content.scrollHeight + "px";
+            btn.querySelector('span:last-child').style.transform = "rotate(180deg)";
+          }
+        });
+      });
+    }
+    renderIssuesAccordion();
+  </script>
+</body>
+</html>
