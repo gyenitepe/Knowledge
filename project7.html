@@ -1,0 +1,445 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITI Model Incident Report - July 2025</title>
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Base styles using Poppins font and specified background color */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        /* Main container to center content and apply max-width */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem; /* Responsive padding */
+        }
+
+        /* Custom Color Palette Classes */
+        .text-primary-action { color: #FF760D; } /* Strong Orange */
+        .bg-primary-action { background-color: #FF760D; }
+        .border-primary-action { border-color: #FF760D; }
+
+        .text-secondary-accent { color: #FF9000; } /* Lighter Orange */
+        .bg-secondary-accent { background-color: #FF9000; }
+        .border-secondary-accent { border-color: #FF9000; }
+
+        .text-positive-success { color: #1CAA53; } /* Green */
+        .bg-positive-success { background-color: #1CAA53; }
+        .border-positive-success { border-color: #1CAA53; }
+
+        .text-neutral-bg-accent { color: #F7BACF; } /* Pink - used for background of flow elements */
+        .bg-neutral-bg-accent { background-color: #F7BACF; }
+        .border-neutral-bg-accent { border-color: #F7BACF; }
+
+        /* Chart Container Styling - ensures responsiveness and proper sizing */
+        .chart-container {
+            position: relative; /* Essential for Chart.js responsiveness */
+            width: 100%;
+            max-width: 700px; /* Max width to prevent excessive width on large screens */
+            height: 350px;    /* Responsive height */
+            max-height: 45vh; /* Max height to prevent vertical overflow */
+            margin: 0 auto; /* Center horizontally */
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0; /* slate-200 */
+            display: flex; /* Helps center chart canvas within container */
+            align-items: center;
+            justify-content: center;
+        }
+        /* Ensures the Chart.js canvas itself respects the container's dimensions */
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block; /* Important for Chart.js rendering */
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* slate-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* slate-400 */
+        }
+
+        /* General link styling */
+        a {
+            color: #FF760D; /* Primary action color for links */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling for details/summary (accordion-like behavior) */
+        details {
+            margin-bottom: 0.75rem;
+            background-color: #f8fafc; /* slate-50 */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        summary {
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            background-color: #f1f5f9; /* slate-100 */
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            outline: none;
+            transition: background-color 0.2s ease;
+        }
+        summary:hover {
+            background-color: #e2e8f0; /* slate-200 */
+        }
+        details[open] summary {
+            border-bottom: 1px solid #e2e8f0; /* slate-200 */
+        }
+        details p {
+            padding: 1rem 1.5rem;
+        }
+        /* Icon for summary to indicate expand/collapse */
+        .summary-icon {
+            margin-left: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        details[open] .summary-icon {
+            transform: rotate(90deg); /* Rotate icon when open */
+        }
+
+    </style>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class=" antialiased">
+    <div class="container py-8">
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold text-primary-action mb-2">ITI Model Incident Report</h1>
+            <p class="text-xl text-slate-600">Massive Overspend Due to Feature Data Leakage</p>
+            <p class="text-md text-slate-500 mt-1">Incident Date: July 5, 2025</p>
+        </header>
+
+        <!-- Key Metrics Summary Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 text-center">
+                <p class="text-sm font-semibold text-slate-500 mb-1">TOTAL OVERSPEND</p>
+                <h2 class="text-4xl font-bold text-primary-action">$8 Million</h2>
+                <p class="text-slate-600 mt-2">Approximate total overspend due to faulty model promotion.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 text-center">
+                <p class="text-sm font-semibold text-slate-500 mb-1">INCIDENT DURATION</p>
+                <h2 class="text-4xl font-bold text-secondary-accent">~20 Minutes</h2>
+                <p class="text-slate-600 mt-2">The rapid span of the spending spike before intervention.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md border border-slate-200 text-center">
+                <p class="text-sm font-semibold text-slate-500 mb-1">CAMPAIGN IMPACT</p>
+                <h2 class="text-4xl font-bold text-positive-success">3-5x Caps</h2>
+                <p class="text-slate-600 mt-2">Individual campaigns overspent their daily budget caps.</p>
+            </div>
+        </section>
+
+        <!-- Main Content Sections -->
+        <main class="space-y-12">
+
+            <!-- 1. Executive Summary Section -->
+            <section id="executive-summary" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-primary-action">&#9432;</span> Executive Summary
+                </h2>
+                <p class="mb-4 text-slate-700">
+                    This report details a critical incident on July 5, 2025, where a faulty ITI (Impression-To-Install) model was erroneously promoted to production. This led to an unprecedented overspend of approximately $8 million in just 20 minutes. The core issue stemmed from a data integrity error that bypassed existing safety checks, necessitating immediate intervention and highlighting significant areas for future system hardening.
+                </p>
+                <p class="text-slate-700">
+                    The incident was caused by the accidental removal of the <code class="bg-slate-100 p-1 rounded">app_id</code> feature column from the <code class="bg-slate-100 p-1 rounded">ml_features.impressions</code> table. This introduced a spurious correlation between <code class="bg-slate-100 p-1 rounded">app_id</code> and the install label during model training. Because positive samples had valid <code class="bg-slate-100 p-1 rounded">app_id</code> values while negative samples had <code class="bg-slate-100 p-1 rounded">app_id = NULL</code>, models, starting with Galapagos (the first to finish training), learned to equate the presence of <code class="bg-slate-100 p-1 rounded">app_id</code> with a positive label. This flaw caused all ITI models to predict near-constant high scores in online serving, triggering the extreme spend spike.
+                </p>
+            </section>
+
+            <!-- 2. Root Cause Analysis Section -->
+            <section id="root-cause" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-secondary-accent">&#128269;</span> Root Cause Analysis
+                </h2>
+                <p class="mb-6 text-slate-700">
+                    Understanding the precise mechanism of the failure is crucial for preventing similar incidents. The root cause was a subtle yet catastrophic data leakage issue that fundamentally corrupted the model's learning process. Below is a breakdown of the causal chain:
+                </p>
+                <div class="flex flex-wrap md:flex-nowrap gap-4 items-center justify-center text-center">
+                    <!-- Step 1 -->
+                    <div class="bg-neutral-bg-accent p-6 rounded-lg border border-slate-200 shadow-sm flex-1 min-w-[250px] transition-transform duration-200 hover:scale-[1.02]">
+                        <p class="text-lg font-semibold text-slate-800 mb-2">1. <code class="text-primary-action font-bold">app_id</code> Removed</p>
+                        <p class="text-slate-700 text-sm">Accidental removal of <code class="bg-slate-50 p-0.5 rounded">app_id</code> column from <code class="bg-slate-50 p-0.5 rounded">ml_features.impressions</code> table.</p>
+                    </div>
+                    <!-- Arrow for desktop -->
+                    <span class="text-4xl text-slate-400 font-bold hidden md:block">&#8594;</span>
+                    <!-- Arrow for mobile -->
+                    <span class="text-4xl text-slate-400 font-bold block md:hidden">&#8595;</span>
+
+                    <!-- Step 2 -->
+                    <div class="bg-neutral-bg-accent p-6 rounded-lg border border-slate-200 shadow-sm flex-1 min-w-[250px] transition-transform duration-200 hover:scale-[1.02]">
+                        <p class="text-lg font-semibold text-slate-800 mb-2">2. Data Leakage Introduced</p>
+                        <p class="text-slate-700 text-sm">Positive samples had valid <code class="bg-slate-50 p-0.5 rounded">app_id</code>; negative samples had <code class="bg-slate-50 p-0.5 rounded">app_id = NULL</code>.</p>
+                    </div>
+                    <span class="text-4xl text-slate-400 font-bold hidden md:block">&#8594;</span>
+                    <span class="text-4xl text-slate-400 font-bold block md:hidden">&#8595;</span>
+
+                    <!-- Step 3 -->
+                    <div class="bg-neutral-bg-accent p-6 rounded-lg border border-slate-200 shadow-sm flex-1 min-w-[250px] transition-transform duration-200 hover:scale-[1.02]">
+                        <p class="text-lg font-semibold text-slate-800 mb-2">3. Spurious Correlation</p>
+                        <p class="text-slate-700 text-sm">Models learned to equate <code class="bg-slate-50 p-0.5 rounded">app_id</code> presence with a positive install label.</p>
+                    </div>
+                    <span class="text-4xl text-slate-400 font-bold hidden md:block">&#8594;</span>
+                    <span class="text-4xl text-slate-400 font-bold block md:hidden">&#8595;</span>
+
+                    <!-- Step 4 -->
+                    <div class="bg-neutral-bg-accent p-6 rounded-lg border border-slate-200 shadow-sm flex-1 min-w-[250px] transition-transform duration-200 hover:scale-[1.02]">
+                        <p class="text-lg font-semibold text-slate-800 mb-2">4. High Predictions & Overspend</p>
+                        <p class="text-slate-700 text-sm">Models (e.g., Galapagos) predicted near-constant high scores, triggering extreme spend spikes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Financial Impact Section -->
+            <section id="financial-impact" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-positive-success">&#36;</span> Financial Impact
+                </h2>
+                <p class="mb-6 text-slate-700">
+                    The promotion of the poorly calibrated ITI model at 3:40 UTC on 2025-07-05 resulted in a severe financial loss over a very short period. The following details the magnitude and distribution of the overspend.
+                </p>
+
+                <!-- Chart Container for Chart.js -->
+                <div class="chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+                <p class="text-center text-slate-600 mt-4 text-sm">
+                    This bar chart illustrates the breakdown of the $8 million total overspend, highlighting the significant portion incurred on non-VX exchanges.
+                </p>
+                <ul class="list-disc list-inside text-slate-700 mt-6 space-y-2">
+                    <li>Total Gross Revenue (GR) Spike: <span class="font-semibold text-primary-action">$8 million</span></li>
+                    <li>Duration of Spike: Approximately <span class="font-semibold text-secondary-accent">20 minutes</span></li>
+                    <li>Overspend on non-VX exchanges: Approximately <span class="font-semibold text-primary-action">$7 million</span> (out of $8M total)</li>
+                    <li>Campaign Overspend: Most campaigns overspent their daily caps by <span class="font-semibold text-secondary-accent">3-5x</span></li>
+                </ul>
+            </section>
+
+            <!-- 4. Safeguards Failure Review Section -->
+            <section id="safeguards-failure" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-neutral-bg-accent">&#128737;</span> Safeguards Failure Review
+                </h2>
+                <p class="mb-6 text-slate-700">
+                    Despite existing safety checks designed to prevent such incidents, a combination of factors led to their failure in detecting the critical data leakage issue. Expand each section below for more details.
+                </p>
+
+                <div class="space-y-4">
+                    <!-- Accordion Item 1 -->
+                    <details>
+                        <summary>
+                            Dataset Checks Failed
+                            <span class="summary-icon">&#10148;</span>
+                        </summary>
+                        <p class="text-slate-700">
+                            Existing dataset checks only validate aggregate statistics such as sample counts or positive counts. These checks are insufficient to detect data leakage issues, where the statistical properties might appear normal, but a critical correlation (like <code class="bg-slate-100 p-0.5 rounded">app_id</code> presence) exists between features and labels.
+                        </p>
+                    </details>
+
+                    <!-- Accordion Item 2 -->
+                    <details>
+                        <summary>
+                            Grafana Monitoring Absence
+                            <span class="summary-icon">&#10148;</span>
+                        </summary>
+                        <p class="text-slate-700">
+                            While Galapagos datasets utilize standard pipelines, the associated Grafana dashboard (<a href="https://grafana.liftoff.io/d/b5930e26-a0d5-4158-a7ed-f4f31a157052/prod-dataset-stats?orgId=1&amp;var-dataset_class=ios-imp-to-install-galapagos-nnpage" target="_blank" class="text-primary-action hover:underline font-semibold">link</a>) was empty due to incorrect settings. Even if it had been configured correctly, the current aggregate stat checks would not have identified the subtle data leakage that caused this incident.
+                        </p>
+                    </details>
+
+                    <!-- Accordion Item 3 -->
+                    <details>
+                        <summary>
+                            Model Promotion Checks Passed Erroneously
+                            <span class="summary-icon">&#10148;</span>
+                        </summary>
+                        <p class="text-slate-700">
+                            Perhaps the most counter-intuitive failure was that model promotion checks, which evaluate metrics like log loss, RMSEI, and calibration on a cross-validation dataset, actually showed <span class="font-semibold text-positive-success">improvement</span>. Because the model learned an overly strong, spurious correlation, its performance on the poisoned dataset appeared better, thus misleading the automated checks into approving the promotion.
+                        </p>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 5. Emergency Interventions Section -->
+            <section id="interventions" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-primary-action">&#9888;</span> Emergency Interventions
+                </h2>
+                <p class="mb-6 text-slate-700">
+                    Upon detection of the incident, a series of rapid and effective emergency actions were taken by the team to mitigate further financial damage and identify the root cause.
+                </p>
+                <ul class="list-disc list-inside text-slate-700 space-y-2">
+                    <li>The <span class="font-semibold text-primary-action">Galapagos test was stopped quickly</span>, preventing additional overspend.</li>
+                    <li>Promotions of <span class="font-semibold text-secondary-accent">all funnel models (NN and LR) were immediately halted</span> to prevent similar issues from being propagated.</li>
+                    <li>The root cause was <span class="font-semibold text-primary-action">identified as the missing <code class="bg-slate-100 p-0.5 rounded">app_id</code> feature</span> through rapid investigation and data analysis.</li>
+                    <li>A <span class="font-semibold text-positive-success">fix was implemented and deployed</span> to backfill the missing data, resolving the underlying issue and preparing for corrected model training.</li>
+                </ul>
+            </section>
+
+            <!-- 6. Key Learnings & Recommendations Section -->
+            <section id="learnings" class="bg-white p-8 rounded-lg shadow-md border border-slate-200">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4 flex items-center">
+                    <span class="mr-2 text-secondary-accent">&#128161;</span> Key Learnings & Recommendations
+                </h2>
+                <p class="mb-6 text-slate-700">
+                    This incident underscores several critical gaps in our current systems and processes that require immediate attention to strengthen our machine learning infrastructure and prevent future occurrences of this nature. These are categorized into key areas for improvement:
+                </p>
+                <ul class="list-disc list-inside text-slate-700 space-y-2">
+                    <li><span class="font-semibold text-primary-action">Enhanced Feature Validation:</span> Implement robust checks for feature integrity, including detection of spurious correlations, missing value patterns that correlate with labels, and proactive alerts for schema changes in critical data sources.</li>
+                    <li><span class="font-semibold text-secondary-accent">Proactive Dataset Monitoring:</span> Improve dataset monitoring beyond aggregate statistics to include distribution shifts, feature-label correlations (especially against nulls), and detailed null value analysis for all features.</li>
+                    <li><span class="font-semibold text-primary-action">Advanced Model Promotion Safeguards:</span> Develop more sophisticated model promotion checks that can identify "too good to be true" performance, explicitly detect data leakage, and include real-time anomaly detection on predicted scores in a canary environment before full deployment.</li>
+                    <li><span class="font-semibold text-secondary-accent">High Bid Guardrails:</span> Implement real-time mechanisms to guard against successive very high absolute bids in online serving environments, potentially through automated rate limiting or a circuit breaker based on real-time spend anomaly detection.</li>
+                </ul>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 text-sm mt-16 pt-8 border-t border-slate-200">
+            <p>&copy; 2025 Incident Response Team. All rights reserved.</p>
+            <p>Report generated for internal review and continuous improvement.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Data for the Financial Impact Chart
+            const impactData = {
+                labels: ['Total Overspend', 'Non-VX Exchange Overspend'],
+                datasets: [{
+                    label: 'Spend in Millions ($)',
+                    data: [8, 7], // $8M total, $7M on non-VX
+                    backgroundColor: [
+                        '#FF760D', // Primary Action - Total Overspend
+                        '#FF9000'  // Secondary Accent - Non-VX Exchange Overspend
+                    ],
+                    borderColor: [
+                        '#d15c00', /* Darker shade of primary-action for border */
+                        '#d17200'  /* Darker shade of secondary-accent for border */
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            // Configuration for the Financial Impact Chart
+            const impactConfig = {
+                type: 'bar',
+                data: impactData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Crucial for responsive height/width from CSS
+                    plugins: {
+                        legend: {
+                            display: false, // Legend is redundant with labels and text explanation
+                            labels: {
+                                color: '#1e293b', // slate-800
+                                font: {
+                                    family: 'Poppins'
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Financial Impact Breakdown by Category',
+                            font: {
+                                size: 18,
+                                weight: '600',
+                                family: 'Poppins'
+                            },
+                            color: '#1e293b' // slate-800
+                        },
+                        tooltip: {
+                            // Custom tooltip to format currency
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        // Format the value as currency (e.g., $8,000,000)
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(context.parsed.y * 1000000);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Millions ($)',
+                                color: '#475569', // slate-600
+                                font: {
+                                    family: 'Poppins',
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'M'; // Append 'M' for millions
+                                },
+                                color: '#475569', // slate-600
+                                font: {
+                                    family: 'Poppins'
+                                }
+                            },
+                            grid: {
+                                color: '#e2e8f0' // slate-200 for grid lines
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#475569', // slate-600
+                                font: {
+                                    family: 'Poppins'
+                                }
+                            },
+                            grid: {
+                                display: false // Hide X-axis grid lines
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Get canvas context and render the chart
+            const impactCtx = document.getElementById('impactChart').getContext('2d');
+            new Chart(impactCtx, impactConfig);
+
+            // Note: The details/summary elements handle their own expand/collapse behavior natively
+            // via HTML, so no specific JavaScript is required for that interaction.
+        });
+    </script>
+</body>
+</html>
+```

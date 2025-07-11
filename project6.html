@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Revenue Ops Menu – PEPr Initiatives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Chart.js CDN (per requirements, not used in this version) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .brand-gradient {
+      background: linear-gradient(90deg, #FF760D 0%, #FF9000 100%);
+    }
+    .card-accent {
+      border-top: 4px solid #FF760D;
+    }
+    .hover-highlight:hover {
+      box-shadow: 0 4px 24px 0 rgba(255,118,13,0.08);
+      border-color: #FF9000;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <div class="w-full brand-gradient py-8 mb-6">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">Revenue Ops: PEPr Menu</h1>
+      <p class="text-white/90 text-lg">Explore current and planned PEPr experiments and revenue ops initiatives.<br>
+      All options are equally displayed—click any links inside cards for actions or more info.</p>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-2 sm:px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Exchange Throttle -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Exchange Throttle</h2>
+        <p class="text-slate-800 mb-2 text-sm">Applies a bid de-multiplier on specific exchanges to manage campaign pacing and costs.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Backend multiplier of 0.3x (or 0.5x) applied to Appodeal.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> or opt out via list.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> If Appodeal and InMobi have large SOW, pacing issues may arise.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Pinterest has noticed higher Appodeal RPAs.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> Internal Experiment</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Hermes Ip</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> ops-pepr-exchange-throttle</div>
+      </section>
+
+      <!-- Global Retention Events -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Global Retention Events</h2>
+        <p class="text-slate-800 mb-2 text-sm">Creates retention events from global campaigns to test retention-based optimization.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Concurrent campaign targeting virtual global retention events.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> Retention events are incremental.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Fanatics does not have an RE campaign set up.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> <a href="#" class="text-[#FF760D] underline">Slides</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> David Wall</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> ops-pepr-sqallowlist-perf Cats</div>
+      </section>
+
+      <!-- Android SQ Allowlist -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Android SQ Allowlist</h2>
+        <p class="text-slate-800 mb-2 text-sm">A/B tests with SQ allowlists to control campaign quality on Android.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> A/B Test via two ad groups, one with SQ allowlist.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> Set up will be reverted if results are negative.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Royal Match Android is on external CPR.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Natalia Yialonites</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> <a href="#" class="text-[#FF760D] underline">Results</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> sqallowlist-perf Cats</div>
+      </section>
+
+      <!-- Fixed Bid Targets -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Fixed Bid Targets</h2>
+        <p class="text-slate-800 mb-2 text-sm">Tests fixed bid strategies to determine optimal bid amounts for specific campaigns.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> A/B Test via two ad groups—one with pacer and one fixed bid.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Niantic is on weekly pacer, hitting goals.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Shreya Bommireddi, Colin</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> <a href="#" class="text-[#FF760D] underline">Slides</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> <a href="#" class="text-[#FF760D] underline">Opt in Tracker</a></div>
+      </section>
+
+      <!-- Regional Targeting -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Regional Targeting</h2>
+        <p class="text-slate-800 mb-2 text-sm">Uses granular regional splits to optimize performance by top-performing geos.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Split out top performing regions into incremental Ad Group with top genre.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Papaya Gaming is splitting campaigns into more regional groups.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Hermes Ip</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> Tracker</div>
+      </section>
+
+      <!-- Allowlist Exploration -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Allowlist Exploration</h2>
+        <p class="text-slate-800 mb-2 text-sm">Tests custom allowlists for campaign optimization and quality control.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Create an allowlist for specified campaign.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> Potential for worsened performance on smaller geos.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Moon Active has a campaign using custom allowlist.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Gokberk Yenitepe</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Tracking:</span> <a href="#" class="text-[#FF760D] underline">Tracker</a></div>
+      </section>
+
+      <!-- Premium Inventory (Direct Deals) -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Premium Inventory (Direct Deals)</h2>
+        <p class="text-slate-800 mb-2 text-sm">Pushes additional spend through direct deals with selected partners for premium inventory access.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Create an Allowlist Ad Group with the relevant deal ID.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> Spend may not completely go to the deal ID (nonstandard setup).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Fanatics would like to target the Gambling Deal ID on X.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Hermes Ip, Gabrielle Mark</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> <a href="#" class="text-[#FF760D] underline">Looker</a>, <a href="#" class="text-[#FF760D] underline">Sheet</a></div>
+      </section>
+
+      <!-- [EMEA] NR Elasticity -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">[EMEA] NR Elasticity</h2>
+        <p class="text-slate-800 mb-2 text-sm">Experiments to identify NR elasticity in EMEA markets.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Ad groups set up with different spending limits to test elasticity.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> (rolling opt-ins).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> Nonstandard setup, may require customer communication.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> <a href="#" class="text-[#FF760D] underline">King Example</a></div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Luke Foster</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> via CATs, <a href="#" class="text-[#FF760D] underline">Looker</a>, <a href="#" class="text-[#FF760D] underline">Sheet</a></div>
+      </section>
+
+      <!-- Hourly Pacing -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Hourly Pacing</h2>
+        <p class="text-slate-800 mb-2 text-sm">Uses hourly pacing experiments to optimize spend patterns.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Ad groups set up with hourly spend limits, rolling opt-ins.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> (by Jan 24th, 2025).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> May require additional customer details/coordination.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Rose Kwong</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> via CATs, <a href="#" class="text-[#FF760D] underline">Results</a></div>
+      </section>
+
+      <!-- ABL Rule -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">ABL Rule</h2>
+        <p class="text-slate-800 mb-2 text-sm">Auto-blocklist rules for campaign source optimization, not accepting new opt-ins.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Dependent on customer goals and use case.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> (no longer accepting opt-ins).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> May be volatility within individual sources.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> Zen Color (Android): D1 retention almost doubled.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Edrick Tan</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> via CATs, <a href="#" class="text-[#FF760D] underline">Results</a></div>
+      </section>
+
+      <!-- Concurrent Campaigns -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">Concurrent Campaigns</h2>
+        <p class="text-slate-800 mb-2 text-sm">Runs concurrent campaigns for performance comparison and technical validation.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Dependent on customer use case and concurrent needs.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> (by February 3rd, 2025).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> If unable to spend on concurrent inventory, performance may vary.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Emagene Pham</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> via CATs, <a href="#" class="text-[#FF760D] underline">Looker</a></div>
+      </section>
+
+      <!-- [APAC] Kakao Inventory -->
+      <section class="bg-white rounded-2xl shadow card-accent hover:highlight p-6 flex flex-col">
+        <h2 class="font-semibold text-xl text-[#FF760D] mb-1">[APAC] Kakao Inventory</h2>
+        <p class="text-slate-800 mb-2 text-sm">Accesses exclusive premium Kakao inventory in APAC region; setup dependent on customer goals.</p>
+        <div class="text-sm mb-2"><span class="font-semibold">Setup:</span> Dependent on use case and customer (new or existing); rolling opt-ins.</div>
+        <div class="text-sm mb-2"><span class="font-semibold">Actions:</span> Opt in via <a href="#" class="text-[#FF760D] underline">form</a> (rolling opt-ins).</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Risks:</span> As this is new, there may be performance volatility.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">Example:</span> King, Mistplay, Century Games, and Peak games.</div>
+        <div class="text-xs mb-2"><span class="font-semibold">DRI:</span> Edrick Tan, Weixin Chua</div>
+        <div class="text-xs mb-2"><span class="font-semibold">External:</span> Kakao Training: <a href="#" class="text-[#FF760D] underline">Deck</a>, <a href="#" class="text-[#FF760D] underline">Sheet</a></div>
+      </section>
+
+    </div>
+
+    <div class="w-full text-center text-xs text-slate-400 mt-10 mb-4">
+      &copy; 2025 Revenue Ops – PEPr Menu | All information current as of Q2 | Designed with Tailwind CSS and Poppins
+    </div>
+  </main>
+</body>
+</html>
