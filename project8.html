@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTIT Campaign Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1720px;
+      margin: 0 auto;
+      padding: 40px 32px 64px 32px;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 2.7rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #FF760D;
+      text-align: center;
+      letter-spacing: -1.2px;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 42px;
+    }
+    @media (max-width: 1050px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 2px 12px 0 #f7bacf33;
+      padding: 34px 32px 28px 32px;
+      border: 1.5px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .card h2 {
+      font-size: 1.38rem;
+      color: #FF9000;
+      margin-top: 0;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    .card p {
+      font-size: 1.04rem;
+      color: #475569;
+      margin: 0 0 16px 0;
+      line-height: 1.6;
+    }
+    .legend-title-standalone {
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 12px 0 6px 0;
+      letter-spacing: -0.4px;
+      padding-left: 4px;
+    }
+    .export-btn {
+      align-self: flex-end;
+      margin-bottom: 10px;
+      background: #FF760D;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      transition: background 0.17s;
+      box-shadow: 0 1px 3px #f7bacf44;
+      letter-spacing: -0.5px;
+    }
+    .export-btn:hover {
+      background: #FF9000;
+    }
+    .plotly-graph {
+      width: 100% !important;
+      min-height: 370px;
+      height: 400px;
+      margin-top: 4px;
+    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 14px 3vw 32px 3vw;
+      }
+      .card {
+        padding: 14px 5px 14px 5px;
+      }
+      .dashboard-grid {
+        gap: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CTIT Campaign Analytics Dashboard</h1>
+    <div class="dashboard-grid">
+      <!-- Cards will be injected here -->
+    </div>
+  </div>
+  <script>
+// ==== DATA ====
+const ctitBuckets = ['immediate','10s','1m','1hr','1d','3d','7d','unknown'];
+const campaignIDs = [42284,43331,43434,43473,43474,43747,43778,43893,44660,44694,44711];
+const palette = ['#FF760D', '#FF9000', '#1CAA53', '#F7BACF', '#1e293b', '#48506b', '#e36c76', '#00B8D9', '#FFC43D', '#7952B3', '#22c55e'];
+
+const DATA = {
+  'Installs': [
+    [17,58,0,7367,148,447,512,47,4620,91,16],
+    [144,1158,0,913,1839,3721,1875,739,966,119,1627],
+    [682,2314,1,8668,4536,8094,6737,2483,2179,354,5227],
+    [30,1169,11,1116,1663,2362,1822,761,178,39,3170],
+    [19,457,18,944,996,1144,870,423,150,33,1769],
+    [17,315,28,1102,969,916,752,328,156,27,1528],
+    [1,3,2,10,11,16,8,2,7,0,42],
+    [261,513,0,825,251,433,313,197,2112,576,3240]
+  ],
+  'Customer Revenue': [
+    [3.0,41.9,0.0,1029.9,0.0,58.8,10.0,13.0,134.0,0.0,0.0],
+    [31.9,2202.8,314.9,1650.0,403.3,714.3,2570.6,1407.1,226.1,35.6,919.2],
+    [1330.1,4249.2,1682.7,3175.1,4121.4,2851.4,6023.1,1926.5,340.5,49.6,282.2],
+    [272.3,1853.7,240.3,1553.7,3388.4,952.6,2411.9,1145.8,314.1,789.4,285.0],
+    [847.0,1662.4,88.7,636.4,1294.4,253.6,1354.9,224.2,2.2,1.1,291.2],
+    [262.5,310.2,248.4,627.8,979.9,95.7,2805.5,337.4,1.2,697.5,696.1],
+    [0.0,0.0,0.0,39.9,0.0,1.0,0.0,0.0,0.0,0.0,0.0],
+    [21305.3,734.4,7.0,2018.0,209.8,170.4,76.8,366.5,1678.5,580.8,225.8]
+  ],
+  'ARPU': [
+    [0.2,0.7,0.0,0.1,0.0,0.1,0.0,0.3,0.0,0.0,0.0],
+    [0.2,1.9,0.0,1.8,0.2,0.2,1.4,1.9,0.2,0.3,0.6],
+    [2.0,1.8,1682.7,0.4,0.9,0.4,0.9,0.8,0.2,0.1,0.1],
+    [9.1,1.6,21.8,1.4,2.0,0.4,1.3,1.5,1.8,20.2,0.1],
+    [44.6,3.6,4.9,0.7,1.3,0.2,1.6,0.5,0.0,0.0,0.2],
+    [15.4,1.0,8.9,0.6,1.0,0.1,3.7,1.0,0.0,25.8,0.5],
+    [0.0,0.0,0.0,4.0,0.0,0.1,0.0,0.0,0.0,0.0,0.0],
+    [81.6,1.4,0.0,2.4,0.8,0.4,0.2,1.9,0.8,1.0,0.1]
+  ]
+};
+
+const explanations = {
+  'Installs': 'Total app installs per CTIT bucket, by campaign. Higher numbers in earlier buckets may indicate stronger user intent.',
+  'Customer Revenue': 'Total customer revenue generated per CTIT bucket, split by campaign.',
+  'ARPU': 'Average Revenue Per User (ARPU) by CTIT bucket and campaign.'
+};
+
+const dashboardGrid = document.querySelector('.dashboard-grid');
+const metrics = Object.keys(DATA);
+
+metrics.forEach((metric, i) => {
+  // Card container
+  const card = document.createElement('div');
+  card.className = 'card';
+  // Title
+  const h2 = document.createElement('h2');
+  h2.textContent = metric;
+  card.appendChild(h2);
+  // Explanation
+  const p = document.createElement('p');
+  p.textContent = explanations[metric];
+  card.appendChild(p);
+  // Export Button
+  const btn = document.createElement('button');
+  btn.className = 'export-btn';
+  btn.innerHTML = 'Export CSV';
+  btn.onclick = () => exportMetricCSV(metric);
+  card.appendChild(btn);
+  // Legend Title (as a standalone div)
+  const legendTitleDiv = document.createElement('div');
+  legendTitleDiv.className = 'legend-title-standalone';
+  legendTitleDiv.innerText = 'Campaign';
+  card.appendChild(legendTitleDiv);
+  // Chart div
+  const chartDiv = document.createElement('div');
+  chartDiv.id = 'chart-' + i;
+  chartDiv.className = 'plotly-graph';
+  card.appendChild(chartDiv);
+  dashboardGrid.appendChild(card);
+});
+
+// ---- CHARTS ----
+metrics.forEach((metric, idx) => {
+  const chartDiv = document.getElementById('chart-' + idx);
+  const traces = campaignIDs.map((camp, i) => ({
+    x: ctitBuckets,
+    y: DATA[metric].map(row => row[i]),
+    mode: 'lines+markers',
+    name: camp + '',
+    line: { width: 3, color: palette[i % palette.length] },
+    marker: { symbol: 'circle', size: 10, color: palette[i % palette.length], line: { width: 1, color: '#fff' } },
+    hovertemplate: '<b>Campaign %{fullData.name}</b><br>CTIT: %{x}<br>'+metric+': %{y}<extra></extra>'
+  }));
+  Plotly.newPlot(chartDiv, traces, {
+    margin: { l: 90, r: 32, t: 18, b: 90 },
+    plot_bgcolor: '#f8fafc',
+    paper_bgcolor: '#fff',
+    font: { family: 'Poppins', color: '#1e293b', size: 18 },
+    legend: {
+      title: { text: '', font: { color: '#1e293b', size: 17 } }, // Empty legend title
+      orientation: 'h',
+      x: 0,
+      y: -0.5,
+      xanchor: 'left',
+      yanchor: 'top',
+      font: {size:15},
+      tracegroupgap: 12
+    },
+    xaxis: { title: 'CTIT Bucket', tickvals: ctitBuckets, linecolor:'#e2e8f0', gridcolor:'#f7bacf', tickfont: { size: 17 } },
+    yaxis: { title: metric, linecolor:'#e2e8f0', gridcolor:'#f7bacf', tickfont: { size: 17 }, automargin: true },
+    hovermode: 'x unified',
+  }, {responsive: true, displaylogo: false, modeBar: { remove: ['sendDataToCloud'] }});
+});
+
+// ---- EXPORT ----
+function exportMetricCSV(metric) {
+  const rows = [
+    ['ctit_bucket', ...campaignIDs],
+    ...DATA[metric].map((row, i) => [ctitBuckets[i], ...row])
+  ];
+  const csv = rows.map(r => r.join(",")).join("\n");
+  const blob = new Blob([csv], {type: 'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = metric.replace(/\s+/g, '_') + '_by_ctit_bucket.csv';
+  a.click();
+}
+  </script>
+</body>
+</html>
