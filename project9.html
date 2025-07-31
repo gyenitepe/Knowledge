@@ -1,0 +1,653 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Bid Target Beta Strategy</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .container {
+            max-width: 1200px;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF9000; /* Lighter Orange */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF760D; /* Strong Orange */
+        }
+
+        /* Specific styles for chart containers */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px; /* Max width for chart */
+            height: 350px; /* Responsive height */
+            max-height: 45vh; /* Max height based on viewport */
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1.5rem; /* mt-6 */
+            margin-bottom: 2rem; /* mb-8 */
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            border: 1px solid #e2e8f0; /* slate-200 */
+            display: flex; /* Use flex to center canvas */
+            justify-content: center;
+            align-items: center;
+        }
+        .chart-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Custom accordion styles for objectives */
+        .accordion-item {
+            background-color: white;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background-color: #f8fafc; /* slate-50 */
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease-in-out;
+        }
+        .accordion-header.active {
+            border-color: #e2e8f0; /* slate-200 */
+        }
+        .accordion-header:hover {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .accordion-content {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            background-color: white;
+        }
+        .accordion-content.open {
+            max-height: 500px; /* Adjust as needed, should be large enough for content */
+            padding-bottom: 1.5rem;
+            padding-top: 1rem;
+        }
+        .accordion-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease-out;
+        }
+        .accordion-icon.rotate {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 lg:p-12 bg-white rounded-lg shadow-xl my-8">
+
+        <!-- Header Section -->
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-orange-600 mb-4 tracking-tight" style="color: #FF760D;">
+                Fixed Bid Target Beta Strategy
+            </h1>
+            <p class="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                The ultimate purpose of the Beta program is to prove that Fixed Bid Target is a product that can make
+                meaningful impact to our business in practice and is worth the investments to build out a full-fledged GA product.
+            </p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="mb-8 border-b border-slate-200">
+            <div role="tablist" class="flex flex-wrap -mb-px text-sm font-medium text-center">
+                <button role="tab" id="tab-overview"
+                        class="tab-button inline-block p-4 border-b-2 rounded-t-lg focus:outline-none"
+                        data-tab="overview">
+                    Overview
+                </button>
+                <button role="tab" id="tab-scale-perf"
+                        class="tab-button inline-block p-4 border-b-2 rounded-t-lg focus:outline-none"
+                        data-tab="scale-perf">
+                    Scale & Performance
+                </button>
+                <button role="tab" id="tab-new-customers"
+                        class="tab-button inline-block p-4 border-b-2 rounded-t-lg focus:outline-none"
+                        data-tab="new-customers">
+                    New Customers
+                </button>
+                <button role="tab" id="tab-everyone-else"
+                        class="tab-button inline-block p-4 border-b-2 rounded-t-lg focus:outline-none"
+                        data-tab="everyone-else">
+                    Everyone Else
+                </button>
+                <button role="tab" id="tab-overall"
+                        class="tab-button inline-block p-4 border-b-2 rounded-t-lg focus:outline-none"
+                        data-tab="overall">
+                    Overall
+                </button>
+            </div>
+        </nav>
+
+        <!-- Tab Content Panels -->
+        <div id="panel-overview" role="tabpanel" class="tab-panel">
+            <h2 class="text-3xl font-semibold mb-6 text-slate-800">Program Overview</h2>
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                The Fixed Bid Target Beta program is strategically designed to validate the product's impact and inform future investment.
+                Our existing customer base is segmented into three key categories, each with distinct needs and behaviors
+                that inform our Beta focus.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-medium mb-3 text-orange-600" style="color: #FF760D;">Customer Categories</h3>
+                    <ul class="space-y-2 text-slate-700">
+                        <li>
+                            <span class="font-semibold">1. Scale or Good Performance:</span> Customers aiming to grow or maintain high efficiency.
+                        </li>
+                        <li>
+                            <span class="font-semibold">2. New Customers:</span> Those new to our platform or fixed budget pacing.
+                        </li>
+                        <li>
+                            <span class="font-semibold">3. Everyone Else:</span> The broader customer base, including those with varying needs.
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-medium mb-3 text-orange-600" style="color: #FF760D;">Beta Focus Rationale</h3>
+                    <p class="mb-3 text-slate-700">
+                        The Beta program primarily focuses on categories #1 and #2 due to their strong product-market fit
+                        and openness to new business models.
+                    </p>
+                    <ul class="list-disc list-inside text-slate-700 space-y-1">
+                        <li>
+                            <span class="font-semibold">Category #1:</span> Proven strongest product-market fit for Fixed Bid Target.
+                        </li>
+                        <li>
+                            <span class="font-semibold">Category #2:</span> No prior experience with existing fixed budget pacing, making them more receptive.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                While category #3 is not an immediate Beta focus, we will be actively gathering data to identify enablers,
+                such as confidence intervals for spend, crucial for gaining buy-in, as this segment accounts for the largest portion of our Gross Revenue (GR).
+            </p>
+
+            <div class="chart-container">
+                <canvas id="customerFocusChart"></canvas>
+            </div>
+            <p class="text-center text-sm text-slate-500 mt-2">
+                Illustration of the Beta program's strategic focus areas.
+            </p>
+        </div>
+
+        <div id="panel-scale-perf" role="tabpanel" class="tab-panel hidden">
+            <h2 class="text-3xl font-semibold mb-6 text-slate-800">Objectives: Customers Who Want to Scale or Have Good Performance</h2>
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                For customers seeking to scale their operations or optimize performance, the Beta program aims to validate our
+                capabilities in onboarding large-scale campaigns, achieving desired outcomes, and ensuring long-term product stickiness.
+            </p>
+            <div id="scale-perf-objectives" class="space-y-4">
+                <!-- Objectives will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <div id="panel-new-customers" role="tabpanel" class="tab-panel hidden">
+            <h2 class="text-3xl font-semibold mb-6 text-slate-800">Objectives: New Customers</h2>
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                Engaging new customers involves validating their acceptance of our new launch methodology and ensuring
+                operational efficiency despite initial campaign volatility.
+            </p>
+            <div id="new-customers-objectives" class="space-y-4">
+                <!-- Objectives will be dynamically loaded here -->
+            </div>
+            <div class="chart-container">
+                <canvas id="newLaunchSuccessChart"></canvas>
+            </div>
+            <p class="text-center text-sm text-slate-500 mt-2">
+                Current historical success rate for new launch campaigns, highlighting the challenge FBT aims to improve.
+            </p>
+            <div class="mt-8 p-6 bg-yellow-50 rounded-lg border border-yellow-200 shadow-sm">
+                <h3 class="text-xl font-semibold mb-3 text-amber-800" style="color: #FF9000;">Open Question: Isolating FBT Impact on New Launches</h3>
+                <p class="text-slate-700 leading-relaxed">
+                    New launches are currently susceptible to spend spikes or poor performance, with 75% failing.
+                    Fixed Bid Targets may improve performance but not entirely resolve these inherent problems.
+                    <br><br>
+                    <strong>Initial thought:</strong> If a customer churns due to <span class="font-bold text-orange-600" style="color: #FF760D;">spend volatility</span>,
+                    the Fixed Bid Target product is responsible. If churn is due to <span class="font-bold text-slate-800">performance</span> (expected to be better with FBT),
+                    we do not believe it is solely due to this product. This distinction is crucial for accurate evaluation.
+                </p>
+            </div>
+        </div>
+
+        <div id="panel-everyone-else" role="tabpanel" class="tab-panel hidden">
+            <h2 class="text-3xl font-semibold mb-6 text-slate-800">Objectives: Everyone Else</h2>
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                For the majority of our customer base, the primary objective is to develop a seamless transition plan,
+                with a focus on establishing confidence intervals for spend to garner crucial stakeholder buy-in.
+            </p>
+            <div id="everyone-else-objectives" class="space-y-4">
+                <!-- Objectives will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <div id="panel-overall" role="tabpanel" class="tab-panel hidden">
+            <h2 class="text-3xl font-semibold mb-6 text-slate-800">Overall Program Objective</h2>
+            <p class="mb-6 text-slate-700 leading-relaxed">
+                Beyond category-specific goals, a key overarching objective for the Beta program is to integrate Fixed Bid Target
+                into our broader budget and margin management strategies.
+            </p>
+            <div id="overall-objectives" class="space-y-4">
+                <!-- Objectives will be dynamically loaded here -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const primaryOrange = '#FF760D'; // Strong Orange
+        const lighterOrange = '#FF9000'; // Lighter Orange
+        const successGreen = '#1CAA53'; // Green
+        const neutralPink = '#F7BACF'; // Pink (used sparingly)
+        const slate800 = '#1e293b'; // Standard Text/Neutral
+        const slate50 = '#f8fafc'; // Background
+        const slate200 = '#e2e8f0'; // Borders/Dividers
+
+        const appData = {
+            customerCategories: [
+                { id: 'cat1', name: 'Customers who want to scale or have good performance', focus: 'Primary Beta Focus', rationale: 'Strongest product-market fit' },
+                { id: 'cat2', name: 'New customers', focus: 'Primary Beta Focus', rationale: 'No experience with existing fixed budget pacing, more open' },
+                { id: 'cat3', name: 'Everyone else', focus: 'Data Gathering for Future', rationale: 'Largest portion of GR, need enablers like confidence interval for spend' }
+            ],
+            objectives: [
+                {
+                    category: 'scale-perf',
+                    tags: ['GTM'],
+                    title: 'Validate we can onboard large customers and campaigns (>10k/d).',
+                    risk: 'There aren\'t significant enough GR that fits in this category',
+                    success: [
+                        'Onboard at least 3-4 large customers',
+                        'Identify the path to get the rest of the large customers and campaigns (e.g. all of top 10 gaming customers).'
+                    ]
+                },
+                {
+                    category: 'scale-perf',
+                    tags: ['Ops', 'R&D'],
+                    title: 'Validate we can achieve the desired performance & scale outcome.',
+                    risk: 'This will be hard to operationalize in practice',
+                    success: [
+                        'All campaigns’ eKPI meet the target (< 5% diff).',
+                        'Ops can use the product to reach the desired scale (if scale is higher priority) or desired performance (if performance is higher priority).',
+                        'When reaching the desired scale, the performance is perceived better/acceptable by the customer (e.g. better as relative to last year’s scale).'
+                    ]
+                },
+                {
+                    category: 'scale-perf',
+                    tags: ['GTM', 'R&D'],
+                    title: 'Validate we can keep the customers on this product post scaling.',
+                    risk: 'This is only applicable to certain pockets of time for a customer.',
+                    success: [
+                        'Campaigns remain on fixed bid targets when budgets start to reduce.'
+                    ]
+                },
+                {
+                    category: 'new-customers',
+                    tags: ['GTM', 'R&D'],
+                    title: 'Validate customers can accept this new way of launching (require us to figure out how to pitch it).',
+                    risk: null, // No specific risk mentioned
+                    success: [
+                        'Onboard 3-4 customers',
+                        'Customers can tolerate the day-to-day spend volatility.'
+                    ]
+                },
+                {
+                    category: 'new-customers',
+                    tags: ['Ops', 'R&D'],
+                    title: 'Validate we can operationalize this product for new customers.',
+                    risk: 'Funnel model prediction (and other bidding behaviors) are volatile on new launches.',
+                    success: [
+                        'All campaigns’ eKPI meet the target (< 5% diff).',
+                        'Ops can effectively use the product to reach the min budget.'
+                    ]
+                },
+                {
+                    category: 'everyone-else',
+                    tags: ['R&D'],
+                    title: 'Figure out a transition plan for everyone else to get on this product.',
+                    risk: 'Previously we saw customers are sensitive to overspend when performance is poor. When adjusting the eKPI target to overspend less and improving performance, we saw underspend increases which posed risks on our GR. So the idea is if we can determine a reasonable confidence interval on spend (over a long period of time) with this product, we could set better expectations with the customers and internal stakeholders to get better buy-ins.',
+                    success: [
+                        'Understand if we can determine a confidence interval for spend (in order to get buy-ins from customers and business).'
+                    ]
+                },
+                {
+                    category: 'overall',
+                    tags: ['Ops', 'R&D'],
+                    title: 'Figure out how to leverage this product in the budget/margin program.',
+                    risk: null,
+                    success: ['Successful integration and utilization within existing budget/margin management frameworks.']
+                }
+            ]
+        };
+
+        let myCustomerFocusChart, myNewLaunchSuccessChart;
+
+        function renderCustomerFocusChart() {
+            const ctx = document.getElementById('customerFocusChart').getContext('2d');
+            if (myCustomerFocusChart) myCustomerFocusChart.destroy();
+            myCustomerFocusChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Primary Beta Focus', 'Data Gathering (Future)'],
+                    datasets: [{
+                        label: 'Beta Program Focus Allocation',
+                        data: [70, 30], // Represents relative focus
+                        backgroundColor: [
+                            primaryOrange, // Strong Orange for primary focus
+                            lighterOrange  // Lighter Orange for data gathering
+                        ],
+                        borderColor: [
+                            primaryOrange,
+                            lighterOrange
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // Horizontal bar chart
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: slate800,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Strategic Beta Program Focus by Customer Category',
+                            font: {
+                                size: 16,
+                                weight: '600'
+                            },
+                            color: slate800
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: slate800
+                            },
+                            grid: {
+                                color: slate200
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: slate800
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderNewLaunchSuccessChart() {
+            const ctx = document.getElementById('newLaunchSuccessChart').getContext('2d');
+            if (myNewLaunchSuccessChart) myNewLaunchSuccessChart.destroy();
+            myNewLaunchSuccessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Successful Launches', 'Failed Launches'],
+                    datasets: [{
+                        label: 'New Campaign Launch Outcomes',
+                        data: [25, 75],
+                        backgroundColor: [
+                            successGreen,
+                            primaryOrange
+                        ],
+                        borderColor: [
+                            successGreen,
+                            primaryOrange
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: slate800,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Historical New Campaign Launch Success Rate',
+                            font: {
+                                size: 16,
+                                weight: '600'
+                            },
+                            color: slate800
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: slate800
+                            },
+                            grid: {
+                                color: slate200
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: slate800
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderObjectives(category, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear previous content
+
+            const filteredObjectives = appData.objectives.filter(obj => obj.category === category);
+
+            filteredObjectives.forEach(obj => {
+                const item = document.createElement('div');
+                item.className = 'accordion-item';
+                item.innerHTML = `
+                    <div class="accordion-header" role="button" aria-expanded="false" tabindex="0">
+                        <div>
+                            <span class="text-sm font-semibold text-orange-500" style="color: ${lighterOrange};">${obj.tags.map(tag => `[${tag}]`).join(' ')}</span>
+                            <h3 class="text-xl font-medium mt-1 text-slate-800">${obj.title}</h3>
+                        </div>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        ${obj.risk ? `<p class="mb-2 text-red-700 font-medium">Risk Addressed: <span class="font-normal text-slate-700">${obj.risk}</span></p>` : ''}
+                        <p class="font-medium text-green-700 mb-2">Success Criteria:</p>
+                        <ul class="list-disc list-inside text-slate-700 ml-4 space-y-1">
+                            ${obj.success.map(criteria => `<li>${criteria}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            // Add event listeners for new accordion items
+            document.querySelectorAll(`#${containerId} .accordion-header`).forEach(header => {
+                header.addEventListener('click', toggleAccordion);
+                header.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        toggleAccordion(e);
+                    }
+                });
+            });
+        }
+
+        function toggleAccordion(event) {
+            const header = event.currentTarget;
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+
+            const isOpen = header.classList.contains('active');
+
+            // Close all other accordions in the same panel
+            document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                if (openContent !== content) {
+                    openContent.classList.remove('open');
+                    openContent.previousElementSibling.classList.remove('active');
+                    openContent.previousElementSibling.querySelector('.accordion-icon').classList.remove('rotate');
+                    openContent.previousElementSibling.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Toggle clicked accordion
+            if (isOpen) {
+                content.classList.remove('open');
+                header.classList.remove('active');
+                icon.classList.remove('rotate');
+                header.setAttribute('aria-expanded', 'false');
+            } else {
+                content.classList.add('open');
+                header.classList.add('active');
+                icon.classList.add('rotate');
+                header.setAttribute('aria-expanded', 'true');
+            }
+        }
+
+        function switchTab(tabId) {
+            // Deactivate all tab buttons and hide all panels
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('border-orange-600', 'text-orange-600', 'font-semibold');
+                button.classList.add('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'hover:border-slate-300');
+            });
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+
+            // Activate the selected tab button and show its panel
+            const activeButton = document.getElementById(`tab-${tabId}`);
+            const activePanel = document.getElementById(`panel-${tabId}`);
+
+            activeButton.classList.add('border-orange-600', 'text-orange-600', 'font-semibold');
+            activeButton.classList.remove('border-transparent', 'text-slate-500', 'hover:text-slate-700', 'hover:border-slate-300');
+            activePanel.classList.remove('hidden');
+
+            // Render charts and objectives for the active tab if they exist
+            if (tabId === 'overview') {
+                renderCustomerFocusChart();
+            } else if (tabId === 'scale-perf') {
+                renderObjectives('scale-perf', 'scale-perf-objectives');
+            } else if (tabId === 'new-customers') {
+                renderObjectives('new-customers', 'new-customers-objectives');
+                renderNewLaunchSuccessChart();
+            } else if (tabId === 'everyone-else') {
+                renderObjectives('everyone-else', 'everyone-else-objectives');
+            } else if (tabId === 'overall') {
+                renderObjectives('overall', 'overall-objectives');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => switchTab(button.dataset.tab));
+                button.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        switchTab(button.dataset.tab);
+                    }
+                });
+            });
+
+            // Initially show the 'Overview' tab
+            switchTab('overview');
+        });
+    </script>
+</body>
+</html>
+```
