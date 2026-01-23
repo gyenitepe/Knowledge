@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMEA NB Optimization Requests - 2025 EOY Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        .chart-container {
+            width: 100%;
+            max-width: 700px;
+            height: 350px;
+            max-height: 45vh;
+            margin: 0 auto;
+            position: relative;
+        }
+        .chart-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .chart-container-lg {
+            width: 100%;
+            max-width: 900px;
+            height: 420px;
+            max-height: 50vh;
+            margin: 0 auto;
+            position: relative;
+        }
+        .nav-btn.active {
+            background-color: #FF760D;
+            color: white;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .section { display: none; }
+        .section.active { display: block; }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .issue-card {
+            transition: all 0.2s ease;
+        }
+        .issue-card:hover {
+            transform: translateX(4px);
+            border-left-width: 6px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold text-slate-800">EMEA New Business</h1>
+                    <p class="text-sm text-slate-500">Optimization Requests • 2025 End of Year Review</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                        <span class="text-slate-600">179 Requests Processed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-[72px] sm:top-[76px] z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex gap-1 sm:gap-2 overflow-x-auto py-2 scrollbar-hide">
+                <button class="nav-btn active px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="overview">
+                    📊 Overview
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="team">
+                    👥 Team
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="issues">
+                    🔍 Issues
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="issueCategories">
+                    📋 Issue Categories
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="risk">
+                    ⚠️ Risk
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="financial">
+                    💰 Financial
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="rlgl">
+                    📈 RL/GL Analysis
+                </button>
+                <button class="nav-btn px-3 sm:px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all hover:bg-orange-50" data-section="takeaways">
+                    🎯 Takeaways
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        
+        <!-- Overview Section -->
+        <section id="overview" class="section active fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Executive Summary</h2>
+                <p class="text-slate-600">A comprehensive overview of 2025 optimization request activity across the EMEA New Business team. This dashboard captures request volumes, financial scope, and key distribution patterns.</p>
+            </div>
+
+            <!-- Hero Metrics -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Total Requests</p>
+                    <p class="text-3xl sm:text-4xl font-bold text-[#FF760D]">179</p>
+                    <p class="text-xs text-slate-500 mt-1">Q1-Q4 2025</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Daily Budget</p>
+                    <p class="text-3xl sm:text-4xl font-bold text-[#FF9000]">$524K</p>
+                    <p class="text-xs text-slate-500 mt-1">Daily run rate</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Revenue Impact</p>
+                    <p class="text-3xl sm:text-4xl font-bold text-[#1CAA53]">$237K</p>
+                    <p class="text-xs text-slate-500 mt-1">Daily run rate</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Customers</p>
+                    <p class="text-3xl sm:text-4xl font-bold text-slate-700">126</p>
+                    <p class="text-xs text-slate-500 mt-1">Unique accounts</p>
+                </div>
+            </div>
+
+            <!-- Request Type & Priority -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4">Request Type Distribution</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-slate-700">Churn Prevention</span>
+                                <span class="text-sm font-bold text-[#FF760D]">114 (64%)</span>
+                            </div>
+                            <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full bg-[#FF760D] rounded-full" style="width: 64%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-medium text-slate-700">Growth Opportunity</span>
+                                <span class="text-sm font-bold text-[#1CAA53]">65 (36%)</span>
+                            </div>
+                            <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full bg-[#1CAA53] rounded-full" style="width: 36%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-4 p-3 bg-slate-50 rounded-lg">📌 The 64/36 split indicates a predominantly reactive optimization workflow, suggesting opportunity for earlier intervention.</p>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4">Priority Distribution</h3>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-4 p-3 bg-slate-50 rounded-lg">⚡ 72% of requests were High or Urgent priority, reflecting significant operational pressure.</p>
+                </div>
+            </div>
+
+            <!-- Request Volume by Quarter -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 class="text-lg font-semibold mb-4">Request Volume by Quarter</h3>
+                <div class="chart-container" style="height: 280px;">
+                    <canvas id="volumeChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Team Performance</h2>
+                <p class="text-slate-600">Analysis of optimization request handling across Account Executives. This view helps identify workload distribution and team capacity patterns.</p>
+            </div>
+
+            <!-- Team Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Top Performer</p>
+                    <p class="text-2xl font-bold text-[#FF760D]">Hichem</p>
+                    <p class="text-xs text-slate-500 mt-1">47 requests (26%)</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Avg per AE</p>
+                    <p class="text-2xl font-bold text-[#1CAA53]">29</p>
+                    <p class="text-xs text-slate-500 mt-1">requests/person</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Active AEs</p>
+                    <p class="text-2xl font-bold text-[#FF9000]">6</p>
+                    <p class="text-xs text-slate-500 mt-1">core team members</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Coverage</p>
+                    <p class="text-2xl font-bold text-slate-700">98%</p>
+                    <p class="text-xs text-slate-500 mt-1">by top 6 AEs</p>
+                </div>
+            </div>
+
+            <!-- Team Chart -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
+                <h3 class="text-lg font-semibold mb-4">Requests by Account Executive</h3>
+                <div class="chart-container">
+                    <canvas id="teamChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Team Breakdown Table -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 class="text-lg font-semibold mb-4">Detailed Breakdown</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200">
+                                <th class="text-left py-3 px-2 font-semibold text-slate-600">Account Executive</th>
+                                <th class="text-center py-3 px-2 font-semibold text-slate-600">Requests</th>
+                                <th class="text-center py-3 px-2 font-semibold text-slate-600">Share</th>
+                                <th class="text-left py-3 px-2 font-semibold text-slate-600">Distribution</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamTable">
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-xs text-slate-500 mt-4">Note: AE names consolidated across covering/handoff variations</p>
+            </div>
+        </section>
+
+        <!-- Issues Section (Form-based categories) -->
+        <section id="issues" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Form-Based Issue Types</h2>
+                <p class="text-slate-600">Breakdown of issues as categorized in the optimization request form (142 requests from Q2-Q4 had this field). These are the pre-defined categories AEs select when submitting requests.</p>
+            </div>
+
+            <!-- Issue Overview -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
+                <h3 class="text-lg font-semibold mb-4">Issue Distribution</h3>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="chart-container">
+                        <canvas id="issueChart"></canvas>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 bg-red-50 border-l-4 border-[#FF760D] rounded-r-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-700">Low ROAS Performance</span>
+                                <span class="font-bold text-[#FF760D]">42 (30%)</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Campaign underperforming targets</p>
+                        </div>
+                        <div class="p-4 bg-orange-50 border-l-4 border-[#FF9000] rounded-r-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-700">High RPA</span>
+                                <span class="font-bold text-[#FF9000]">30 (21%)</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Cost per action above threshold</p>
+                        </div>
+                        <div class="p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-700">Technical Issue</span>
+                                <span class="font-bold text-blue-600">23 (16%)</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Platform/integration problems</p>
+                        </div>
+                        <div class="p-4 bg-green-50 border-l-4 border-[#1CAA53] rounded-r-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium text-slate-700">Strategical Suggestion</span>
+                                <span class="font-bold text-[#1CAA53]">22 (15%)</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Proactive optimization ideas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues by Request Type -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 class="text-lg font-semibold mb-4">Issues by Request Type</h3>
+                <p class="text-sm text-slate-600 mb-4">How issues distribute across Churn Prevention vs Growth Opportunity requests.</p>
+                
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <!-- Churn Prevention -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#FF760D] to-[#FF9000] p-4">
+                            <h4 class="font-bold text-white">Churn Prevention</h4>
+                            <p class="text-sm text-white/80">93 requests • Reactive problem-solving</p>
+                        </div>
+                        <div class="p-4 space-y-2" id="churnIssues">
+                        </div>
+                        <div class="p-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-sm"><span class="font-bold text-[#FF760D]">59%</span> of churn issues are performance-related (Low ROAS + High RPA)</p>
+                        </div>
+                    </div>
+
+                    <!-- Growth Opportunity -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-[#1CAA53] to-emerald-500 p-4">
+                            <h4 class="font-bold text-white">Growth Opportunity</h4>
+                            <p class="text-sm text-white/80">49 requests • Proactive expansion</p>
+                        </div>
+                        <div class="p-4 space-y-2" id="growthIssues">
+                        </div>
+                        <div class="p-4 bg-slate-50 border-t border-slate-200">
+                            <p class="text-sm"><span class="font-bold text-[#1CAA53]">47%</span> are proactive (Strategic + Technical enabling growth)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Issue Categories Section (From Description Analysis) -->
+        <section id="issueCategories" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Issue Categories from Descriptions</h2>
+                <p class="text-slate-600">Analysis of 179 request descriptions to identify recurring complaint patterns. Multiple categories can apply to a single request. This provides deeper insight into what AEs are actually describing.</p>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Descriptions Analyzed</p>
+                    <p class="text-3xl font-bold text-[#FF760D]">179</p>
+                    <p class="text-xs text-slate-500 mt-1">Full year 2025</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Unique Categories</p>
+                    <p class="text-3xl font-bold text-[#FF9000]">18</p>
+                    <p class="text-xs text-slate-500 mt-1">Issue types identified</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Top Issue</p>
+                    <p class="text-2xl font-bold text-[#1CAA53]">45%</p>
+                    <p class="text-xs text-slate-500 mt-1">Launch/Setup related</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Conversion Issues</p>
+                    <p class="text-3xl font-bold text-slate-700">40%</p>
+                    <p class="text-xs text-slate-500 mt-1">No/Low events</p>
+                </div>
+            </div>
+
+            <!-- Main Chart -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-8">
+                <h3 class="text-lg font-semibold mb-2">Issue Category Distribution</h3>
+                <p class="text-sm text-slate-500 mb-4">Percentage of requests mentioning each issue type (requests can have multiple issues)</p>
+                <div class="chart-container-lg">
+                    <canvas id="issueCategoryChart"></canvas>
+                </div>
+            </div>
+
+            <!-- DEEP DIVE: Campaign Launch Issues -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-2xl">🚀</span>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-600">Deep Dive: Campaign Launch/Setup Issues</h3>
+                        <p class="text-sm text-slate-500">80 requests (45%) involve launch-related challenges</p>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-600 mb-4">These requests are triggered during the early stages of campaign lifecycle - from initial setup through the first few weeks of performance.</p>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">Sub-Categories</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 bg-blue-50 rounded">
+                                <span class="text-sm">New Geo/Market Launch</span>
+                                <span class="text-sm font-bold text-blue-600">52 (65%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-orange-50 rounded">
+                                <span class="text-sm">Slow Data/Event Collection</span>
+                                <span class="text-sm font-bold text-[#FF9000]">39 (49%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">Performance Below Expectations</span>
+                                <span class="text-sm font-bold text-slate-600">20 (25%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">Setup/Configuration Issues</span>
+                                <span class="text-sm font-bold text-slate-600">20 (25%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">Tracking/Attribution Problems</span>
+                                <span class="text-sm font-bold text-slate-600">17 (21%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">Typical Scenarios</h4>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <div class="p-3 bg-slate-50 rounded-lg border-l-3 border-blue-400">
+                                <p class="font-medium text-slate-700">🌍 New Geo Expansion</p>
+                                <p class="text-xs mt-1">"Launched DE and UK campaigns... DE has spent $500 with no installs while UK performing well"</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border-l-3 border-orange-400">
+                                <p class="font-medium text-slate-700">⏱️ Slow Event Collection</p>
+                                <p class="text-xs mt-1">"$5K spent, 1K installs but zero purchases... can't move to ROAS optimization"</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-lg border-l-3 border-red-400">
+                                <p class="font-medium text-slate-700">😰 Client Impatience</p>
+                                <p class="text-xs mt-1">"POC is super impatient even though I've explained the learning phase"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEEP DIVE: No/Low Conversions -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-2xl">📉</span>
+                    <div>
+                        <h3 class="text-lg font-semibold text-[#FF760D]">Deep Dive: No/Low Conversions</h3>
+                        <p class="text-sm text-slate-500">72 requests (40%) involve conversion/event collection problems</p>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-600 mb-4">The most common performance complaint - campaigns spending budget but failing to generate downstream events (FTDs, purchases, trials).</p>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">What's Not Converting?</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 bg-red-50 rounded">
+                                <span class="text-sm">Zero/Low FTDs</span>
+                                <span class="text-sm font-bold text-red-600">22 (31%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-orange-50 rounded">
+                                <span class="text-sm">No/Low Purchases (IAP)</span>
+                                <span class="text-sm font-bold text-[#FF9000]">19 (26%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-amber-50 rounded">
+                                <span class="text-sm">Zero Revenue / No ROAS</span>
+                                <span class="text-sm font-bold text-amber-600">17 (24%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">No Registrations / Trials</span>
+                                <span class="text-sm font-bold text-slate-600">13 (18%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">When Does This Happen?</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 bg-blue-50 rounded">
+                                <span class="text-sm">Early Stage (&lt;2 weeks)</span>
+                                <span class="text-sm font-bold text-blue-600">46 (64%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-green-50 rounded">
+                                <span class="text-sm">New Campaign Launch</span>
+                                <span class="text-sm font-bold text-[#1CAA53]">42 (58%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-purple-50 rounded">
+                                <span class="text-sm">Specific Geo Underperforming</span>
+                                <span class="text-sm font-bold text-purple-600">30 (42%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">Android-Specific</span>
+                                <span class="text-sm font-bold text-slate-600">18 (25%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-orange-50 rounded-lg border border-orange-200">
+                    <p class="text-sm"><span class="font-bold text-[#FF760D]">Key Insight:</span> 64% of conversion issues occur in early-stage campaigns (&lt;2 weeks), suggesting better client expectation-setting about data collection timelines could reduce these requests.</p>
+                </div>
+            </div>
+
+            <!-- DEEP DIVE: Geo/Market Performance -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-2xl">🌍</span>
+                    <div>
+                        <h3 class="text-lg font-semibold text-indigo-600">Deep Dive: Geo/Market Performance</h3>
+                        <p class="text-sm text-slate-500">71 requests (40%) involve geographic/market-specific challenges</p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">Markets Mentioned</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 bg-blue-50 rounded">
+                                <span class="text-sm">🇪🇺 European (IT/ES/FR/NL)</span>
+                                <span class="text-sm font-bold text-blue-600">57</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">🇺🇸 US</span>
+                                <span class="text-sm font-bold text-slate-600">35</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">📦 T1 Bundles</span>
+                                <span class="text-sm font-bold text-slate-600">7</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-slate-50 rounded">
+                                <span class="text-sm">🇬🇧 UK / 🇩🇪 DE</span>
+                                <span class="text-sm font-bold text-slate-600">13</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">Issue Types</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center p-2 bg-red-50 rounded">
+                                <span class="text-sm">No/Low FTDs in Geo</span>
+                                <span class="text-sm font-bold text-red-600">20</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-orange-50 rounded">
+                                <span class="text-sm">High CPI in Geo</span>
+                                <span class="text-sm font-bold text-[#FF9000]">16</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-amber-50 rounded">
+                                <span class="text-sm">Geo Underperforming vs Others</span>
+                                <span class="text-sm font-bold text-amber-600">14</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">Common Patterns</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="p-2 bg-indigo-50 rounded">
+                                <p class="font-medium text-indigo-700">DE Underperformance</p>
+                                <p class="text-xs text-slate-600">"DE hasn't driven a single FTD... $17K spent"</p>
+                            </div>
+                            <div class="p-2 bg-indigo-50 rounded">
+                                <p class="font-medium text-indigo-700">European CPI Targets</p>
+                                <p class="text-xs text-slate-600">"Struggling to get CPI below $1.50 in IT/ES/NL"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-indigo-50 rounded-lg border border-indigo-200">
+                    <p class="text-sm"><span class="font-bold text-indigo-600">Key Insight:</span> European markets (IT/ES/FR/NL) appear in 80% of geo-related issues, often struggling with CPI targets. Germany (DE) is frequently cited as a specific problem market.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Risk Section -->
+        <section id="risk" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Churn Risk Analysis</h2>
+                <p class="text-slate-600">Distribution of activity churn risk scores (1-5 scale) as assessed by Account Executives. Higher scores indicate greater urgency and potential revenue impact.</p>
+            </div>
+
+            <!-- Risk Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">High Risk (4-5)</p>
+                    <p class="text-3xl font-bold text-[#FF760D]">69</p>
+                    <p class="text-xs text-slate-500 mt-1">39% of requests</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Low Risk (1-2)</p>
+                    <p class="text-3xl font-bold text-[#1CAA53]">58</p>
+                    <p class="text-xs text-slate-500 mt-1">32% of requests</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Churn Avg Risk</p>
+                    <p class="text-3xl font-bold text-[#FF9000]">3.7</p>
+                    <p class="text-xs text-slate-500 mt-1">Prevention requests</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Growth Avg Risk</p>
+                    <p class="text-3xl font-bold text-[#1CAA53]">1.7</p>
+                    <p class="text-xs text-slate-500 mt-1">Opportunity requests</p>
+                </div>
+            </div>
+
+            <!-- Risk Distribution Chart -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-6">
+                <h3 class="text-lg font-semibold mb-4">Risk Score Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Risk Cards -->
+            <div class="grid grid-cols-5 gap-2 sm:gap-4 mb-6">
+                <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border-b-4 border-[#1CAA53] text-center">
+                    <p class="text-2xl sm:text-3xl font-bold text-[#1CAA53]">35</p>
+                    <p class="text-xs text-slate-500">Risk 1</p>
+                    <p class="text-xs text-slate-400">Low</p>
+                </div>
+                <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border-b-4 border-green-400 text-center">
+                    <p class="text-2xl sm:text-3xl font-bold text-green-500">23</p>
+                    <p class="text-xs text-slate-500">Risk 2</p>
+                </div>
+                <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border-b-4 border-[#FF9000] text-center">
+                    <p class="text-2xl sm:text-3xl font-bold text-[#FF9000]">52</p>
+                    <p class="text-xs text-slate-500">Risk 3</p>
+                    <p class="text-xs text-slate-400">Medium</p>
+                </div>
+                <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border-b-4 border-orange-500 text-center">
+                    <p class="text-2xl sm:text-3xl font-bold text-orange-500">51</p>
+                    <p class="text-xs text-slate-500">Risk 4</p>
+                    <p class="text-xs text-slate-400">High</p>
+                </div>
+                <div class="bg-white rounded-xl p-3 sm:p-4 shadow-sm border-b-4 border-[#FF760D] text-center">
+                    <p class="text-2xl sm:text-3xl font-bold text-[#FF760D]">18</p>
+                    <p class="text-xs text-slate-500">Risk 5</p>
+                    <p class="text-xs text-slate-400">Critical</p>
+                </div>
+            </div>
+
+            <!-- Insight -->
+            <div class="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-6 text-white">
+                <h4 class="font-bold text-lg mb-2">💡 Key Insight & Action</h4>
+                <p class="mb-3">With <span class="font-bold text-yellow-300">39%</span> of requests at high risk (levels 4-5), there's a significant opportunity to reduce firefighting by identifying issues earlier in the customer lifecycle when churn risk is lower.</p>
+                <p class="text-sm text-white/80">Focus for 2026: Shift intervention earlier to address campaigns at risk levels 1-2 before they escalate to critical status, reducing the volume of high-risk requests and improving overall account health.</p>
+            </div>
+        </section>
+
+        <!-- Financial Section -->
+        <section id="financial" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Financial Impact</h2>
+                <p class="text-slate-600">Budget and revenue impact analysis of optimization requests. All figures represent <span class="font-semibold">daily run rates</span> (day-over-day), not cumulative totals.</p>
+            </div>
+
+            <!-- Big Numbers -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-white">
+                    <p class="text-sm font-medium text-slate-400 uppercase tracking-wide mb-2">Total Daily Budget Under Management</p>
+                    <p class="text-4xl sm:text-5xl font-bold text-[#FF9000]">$523,686</p>
+                    <p class="text-sm text-slate-400 mt-2">Daily run rate across 179 requests</p>
+                    <p class="text-xs text-slate-500 mt-1">Sum of daily budgets at time of request</p>
+                </div>
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-white">
+                    <p class="text-sm font-medium text-slate-400 uppercase tracking-wide mb-2">Estimated Revenue Impact</p>
+                    <p class="text-4xl sm:text-5xl font-bold text-[#1CAA53]">$237,275</p>
+                    <p class="text-sm text-slate-400 mt-2">Daily run rate • Potential upside/risk</p>
+                    <p class="text-xs text-slate-500 mt-1">Sum of estimated daily revenue impact</p>
+                </div>
+            </div>
+
+            <!-- Average Metrics -->
+            <div class="grid grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Avg Daily Budget per Request</p>
+                    <p class="text-3xl font-bold text-[#FF9000]">$2,926</p>
+                    <p class="text-xs text-slate-500 mt-1">Per optimization request</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Avg Revenue Impact per Request</p>
+                    <p class="text-3xl font-bold text-[#1CAA53]">$1,326</p>
+                    <p class="text-xs text-slate-500 mt-1">Per optimization request</p>
+                </div>
+            </div>
+
+            <!-- By Request Type -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 class="text-lg font-semibold mb-4">Average Daily Budget by Request Type</h3>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="border-l-4 border-[#FF760D] bg-gradient-to-r from-red-50 to-transparent rounded-r-xl p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-semibold text-slate-700">Churn Prevention</h4>
+                                <p class="text-sm text-slate-500">114 requests • Defensive</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-500">Avg Daily Budget</p>
+                                <p class="text-2xl font-bold text-[#FF9000]">$2,117</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-l-4 border-[#1CAA53] bg-gradient-to-r from-green-50 to-transparent rounded-r-xl p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-semibold text-slate-700">Growth Opportunity</h4>
+                                <p class="text-sm text-slate-500">65 requests • Offensive</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-500">Avg Daily Budget</p>
+                                <p class="text-2xl font-bold text-[#1CAA53]">$4,344</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-slate-50 rounded-lg">
+                    <p class="text-sm"><span class="font-bold text-[#1CAA53]">2x budget differential:</span> Growth accounts have higher stakes, averaging $4.3K/day vs $2.1K/day for churn cases. This suggests healthier accounts seek expansion while struggling accounts operate with lower budgets.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RL/GL Analysis Section -->
+        <section id="rlgl" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">RedLight / GreenLight Insights Analysis</h2>
+                <p class="text-slate-600">Analysis of RL/GL field completion rates in Q2-Q4 2025 optimization requests (142 total). This field was introduced in Q2 and captures diagnostic insights from the RL/GL dashboard. Q1 (37 requests) did not have this field.</p>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Q2-Q4 Requests</p>
+                    <p class="text-3xl font-bold text-slate-700">142</p>
+                    <p class="text-xs text-slate-500 mt-1">With RL/GL field</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Properly Filled</p>
+                    <p class="text-3xl font-bold text-[#1CAA53]">87</p>
+                    <p class="text-xs text-slate-500 mt-1">61% fill rate</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Empty / N/A</p>
+                    <p class="text-3xl font-bold text-[#FF760D]">55</p>
+                    <p class="text-xs text-slate-500 mt-1">39% unfilled</p>
+                </div>
+                <div class="metric-card bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all">
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Q1 Requests</p>
+                    <p class="text-3xl font-bold text-slate-400">37</p>
+                    <p class="text-xs text-slate-500 mt-1">No RL/GL field</p>
+                </div>
+            </div>
+
+            <!-- Fill Rate Visual -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-8">
+                <h3 class="text-lg font-semibold mb-4">RL/GL Field Completion Rate</h3>
+                <div class="grid lg:grid-cols-2 gap-6 items-center">
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="rlglPieChart"></canvas>
+                    </div>
+                    <div>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-green-50 border-l-4 border-[#1CAA53] rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-semibold text-[#1CAA53]">Properly Filled</span>
+                                    <span class="text-2xl font-bold text-[#1CAA53]">61.3%</span>
+                                </div>
+                                <p class="text-sm text-slate-600">87 requests included meaningful RL/GL insights</p>
+                            </div>
+                            <div class="p-4 bg-orange-50 border-l-4 border-[#FF760D] rounded-r-lg">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-semibold text-[#FF760D]">Empty / N/A</span>
+                                    <span class="text-2xl font-bold text-[#FF760D]">38.7%</span>
+                                </div>
+                                <p class="text-sm text-slate-600">55 requests had blank, N/A, or minimal entries</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fill Rate by AE -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 mb-8">
+                <h3 class="text-lg font-semibold mb-4">RL/GL Fill Rate by Account Executive</h3>
+                <p class="text-sm text-slate-500 mb-4">Comparison of field completion rates across team members (Q2-Q4 only)</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-200">
+                                <th class="text-left py-3 px-2 font-semibold text-slate-600">Account Executive</th>
+                                <th class="text-center py-3 px-2 font-semibold text-slate-600">Filled</th>
+                                <th class="text-center py-3 px-2 font-semibold text-slate-600">Total</th>
+                                <th class="text-center py-3 px-2 font-semibold text-slate-600">Rate</th>
+                                <th class="text-left py-3 px-2 font-semibold text-slate-600">Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rlglAeTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl p-6 text-white">
+                <h4 class="font-bold text-lg mb-3">🎯 Recommendations for Improving RL/GL Adoption</h4>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="flex gap-3">
+                        <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                        <p class="text-sm text-slate-300">Make RL/GL field mandatory to ensure all requests include diagnostic data</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                        <p class="text-sm text-slate-300">Train AEs on effective use of the RL/GL dashboard and what insights to capture</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                        <p class="text-sm text-slate-300">Create templates/examples for common RL/GL response patterns</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                        <p class="text-sm text-slate-300">Share best practices from high-compliance AEs (Sattar 93%, Ewan 89%)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Takeaways Section -->
+        <section id="takeaways" class="section fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Key Takeaways & 2026 Focus</h2>
+                <p class="text-slate-600">Strategic insights from 2025 performance and recommended focus areas for the upcoming year.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                <!-- Key Findings -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-slate-700">📈 Key Findings</h3>
+                    
+                    <div class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#FF760D]">
+                        <h4 class="font-semibold text-[#FF760D] mb-2">High-Risk Request Volume</h4>
+                        <p class="text-sm text-slate-600"><span class="font-bold">39%</span> of requests are at high risk (levels 4-5). Identifying and addressing issues earlier when churn risk is lower can significantly reduce firefighting and improve outcomes.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-blue-600 mb-2">Launch Phase Dominates</h4>
+                        <p class="text-sm text-slate-600"><span class="font-bold">45%</span> of requests relate to campaign launches. Combined with 64% of conversion issues in early-stage campaigns, suggests focus on launch playbooks.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#1CAA53]">
+                        <h4 class="font-semibold text-[#1CAA53] mb-2">Higher Stakes on Growth</h4>
+                        <p class="text-sm text-slate-600">Growth Opportunity requests average <span class="font-bold">2x</span> the daily budget ($4.3K vs $2.1K) with much lower churn risk (1.7 vs 3.7).</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 shadow-sm border-l-4 border-indigo-500">
+                        <h4 class="font-semibold text-indigo-600 mb-2">European Markets Challenge</h4>
+                        <p class="text-sm text-slate-600">European markets (IT/ES/FR/NL/DE) appear in <span class="font-bold">80%</span> of geo-related issues, often struggling with CPI targets.</p>
+                    </div>
+                </div>
+
+                <!-- 2026 Focus Areas -->
+                <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-white">
+                    <h3 class="text-lg font-semibold mb-4">🎯 2026 Focus Areas</h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                            <p class="text-sm text-slate-300">Develop early warning system for ROAS degradation to shift from reactive to proactive optimization</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                            <p class="text-sm text-slate-300">Create launch playbooks to set proper expectations for data collection timelines</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                            <p class="text-sm text-slate-300">Increase proportion of Growth Opportunity requests through strategic account planning</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                            <p class="text-sm text-slate-300">Develop European market strategies to address persistent CPI/performance challenges</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">5</span>
+                            <p class="text-sm text-slate-300">Simplify Slack request workflow with clearer topics for early stage churn prevention cases</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">6</span>
+                            <p class="text-sm text-slate-300">Launch NB Assistant Slack bot for quick access to internal links, investigation dashboards, and key campaign facts</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">7</span>
+                            <p class="text-sm text-slate-300">Introduce automated Insights Agent workflow in #new_business_support_emea to address low RL/GL usage</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex-shrink-0 w-7 h-7 bg-[#1CAA53] rounded-full flex items-center justify-center text-sm font-bold">8</span>
+                            <p class="text-sm text-slate-300">Add Task Reminder & Follow Up bot in #new_business_support_emea for timely follow-ups and accountability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 class="text-lg font-semibold mb-4 text-center">2025 at a Glance</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
+                    <div class="p-4">
+                        <p class="text-3xl font-bold text-[#FF760D]">179</p>
+                        <p class="text-sm text-slate-500">Requests</p>
+                    </div>
+                    <div class="p-4 border-l border-slate-200">
+                        <p class="text-3xl font-bold text-[#FF9000]">126</p>
+                        <p class="text-sm text-slate-500">Customers</p>
+                    </div>
+                    <div class="p-4 border-l border-slate-200">
+                        <p class="text-3xl font-bold text-[#1CAA53]">6</p>
+                        <p class="text-sm text-slate-500">Active AEs</p>
+                    </div>
+                    <div class="p-4 border-l border-slate-200">
+                        <p class="text-3xl font-bold text-slate-700">$524K</p>
+                        <p class="text-sm text-slate-500">Daily Budget</p>
+                    </div>
+                    <div class="p-4 border-l border-slate-200">
+                        <p class="text-3xl font-bold text-indigo-600">61%</p>
+                        <p class="text-sm text-slate-500">RL/GL Fill Rate</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-slate-500">EMEA New Business • 2025 End of Year Review</p>
+                <p class="text-sm text-slate-400">Data from NB AE Optimization Request Forms • Q1-Q4 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data
+        const data = {
+            team: [
+                { name: 'Hichem', requests: 47 },
+                { name: 'Ele Garcia', requests: 39 },
+                { name: 'Sattar', requests: 37 },
+                { name: 'Ewan', requests: 29 },
+                { name: 'Maurice', requests: 13 },
+                { name: 'David F', requests: 10 }
+            ],
+            issues: {
+                labels: ['Low ROAS', 'High RPA', 'Technical', 'Strategic', 'Increasing RPIs', 'Long Time', 'Fraud'],
+                values: [42, 30, 23, 22, 12, 8, 5],
+                colors: ['#FF760D', '#FF9000', '#3b82f6', '#1CAA53', '#a855f7', '#64748b', '#f472b6']
+            },
+            issueCategories: {
+                labels: [
+                    'Campaign Launch/Setup',
+                    'No/Low Conversions',
+                    'Performance Decline',
+                    'Scaling Request',
+                    'Fraud/Invalid Traffic',
+                    'Geo/Market Issues',
+                    'Source App/Publisher',
+                    'High CPA',
+                    'Low ROAS',
+                    'Churn Risk',
+                    'Optimization Transition',
+                    'High CPI',
+                    'Creative/Ad Format',
+                    'Technical/Platform'
+                ],
+                values: [80, 72, 44, 42, 38, 71, 31, 31, 29, 29, 27, 25, 23, 14],
+                colors: [
+                    '#3b82f6', '#FF760D', '#FF9000', '#1CAA53', '#ef4444', 
+                    '#6366f1', '#f59e0b', '#ec4899', '#f43f5e', '#dc2626',
+                    '#8b5cf6', '#eab308', '#a855f7', '#06b6d4'
+                ]
+            },
+            churnIssues: [
+                { name: 'Low ROAS', value: 34, color: '#FF760D' },
+                { name: 'High RPA', value: 21, color: '#FF9000' },
+                { name: 'Technical Issue', value: 13, color: '#3b82f6' },
+                { name: 'Strategic Sugg.', value: 9, color: '#1CAA53' },
+                { name: 'Long Time to Goal', value: 8, color: '#64748b' },
+                { name: 'Increasing RPIs', value: 5, color: '#a855f7' },
+                { name: 'Fraud', value: 3, color: '#f472b6' }
+            ],
+            growthIssues: [
+                { name: 'Strategic Sugg.', value: 13, color: '#1CAA53' },
+                { name: 'Technical Issue', value: 10, color: '#3b82f6' },
+                { name: 'High RPA', value: 9, color: '#FF9000' },
+                { name: 'Low ROAS', value: 8, color: '#FF760D' },
+                { name: 'Increasing RPIs', value: 7, color: '#a855f7' },
+                { name: 'Fraud', value: 2, color: '#f472b6' },
+                { name: 'Long Time to Goal', value: 0, color: '#64748b' }
+            ],
+            priority: {
+                labels: ['Urgent', 'High', 'Medium', 'Low'],
+                values: [31, 98, 48, 2],
+                colors: ['#FF760D', '#FF9000', '#3b82f6', '#64748b']
+            },
+            risk: {
+                labels: ['Risk 1 (Low)', 'Risk 2', 'Risk 3 (Medium)', 'Risk 4 (High)', 'Risk 5 (Critical)'],
+                values: [35, 23, 52, 51, 18],
+                colors: ['#1CAA53', '#22c55e', '#FF9000', '#f97316', '#FF760D']
+            },
+            quarterly: {
+                labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                values: [37, 45, 48, 49]
+            },
+            rlglByAE: [
+                { name: 'Sattar', filled: 27, total: 29, rate: 93 },
+                { name: 'Ewan', filled: 17, total: 19, rate: 89 },
+                { name: 'David F', filled: 5, total: 7, rate: 71 },
+                { name: 'Hichem', filled: 18, total: 38, rate: 47 },
+                { name: 'Ele Garcia', filled: 10, total: 27, rate: 37 },
+                { name: 'Maurice', filled: 2, total: 8, rate: 25 }
+            ]
+        };
+
+        // Charts
+        let charts = {};
+
+        // Initialize Priority Chart
+        function initPriorityChart() {
+            const ctx = document.getElementById('priorityChart').getContext('2d');
+            charts.priority = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.priority.labels,
+                    datasets: [{
+                        data: data.priority.values,
+                        backgroundColor: data.priority.colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Poppins', size: 11 }, padding: 15 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Volume Chart
+        function initVolumeChart() {
+            const ctx = document.getElementById('volumeChart').getContext('2d');
+            charts.volume = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.quarterly.labels,
+                    datasets: [{
+                        label: 'Requests',
+                        data: data.quarterly.values,
+                        backgroundColor: ['#3b82f6', '#FF760D', '#FF9000', '#1CAA53'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Poppins', weight: '500' } }
+                        },
+                        y: { 
+                            grid: { color: '#e2e8f0' },
+                            ticks: { font: { family: 'Poppins' } },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Team Chart
+        function initTeamChart() {
+            const ctx = document.getElementById('teamChart').getContext('2d');
+            charts.team = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.team.map(t => t.name),
+                    datasets: [{
+                        label: 'Requests',
+                        data: data.team.map(t => t.requests),
+                        backgroundColor: '#FF760D',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Poppins' } }
+                        },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Poppins', weight: '500' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Issue Chart (Form-based)
+        function initIssueChart() {
+            const ctx = document.getElementById('issueChart').getContext('2d');
+            charts.issue = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.issues.labels,
+                    datasets: [{
+                        data: data.issues.values,
+                        backgroundColor: data.issues.colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Poppins', size: 10 }, padding: 10 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Issue Category Chart (From Descriptions)
+        function initIssueCategoryChart() {
+            const ctx = document.getElementById('issueCategoryChart').getContext('2d');
+            charts.issueCategory = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.issueCategories.labels,
+                    datasets: [{
+                        label: 'Requests',
+                        data: data.issueCategories.values,
+                        backgroundColor: data.issueCategories.colors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const pct = (context.raw / 179 * 100).toFixed(0);
+                                    return `${context.raw} requests (${pct}%)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { color: '#e2e8f0' },
+                            ticks: { font: { family: 'Poppins' } },
+                            title: { display: true, text: 'Number of Requests', font: { family: 'Poppins', size: 11 } }
+                        },
+                        y: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Poppins', size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Risk Chart
+        function initRiskChart() {
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            charts.risk = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.risk.labels,
+                    datasets: [{
+                        label: 'Requests',
+                        data: data.risk.values,
+                        backgroundColor: data.risk.colors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { family: 'Poppins', size: 10 } }
+                        },
+                        y: { 
+                            grid: { color: '#e2e8f0' },
+                            ticks: { font: { family: 'Poppins' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize RL/GL Pie Chart
+        function initRlglPieChart() {
+            const ctx = document.getElementById('rlglPieChart').getContext('2d');
+            charts.rlglPie = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Properly Filled', 'Empty / N/A'],
+                    datasets: [{
+                        data: [87, 55],
+                        backgroundColor: ['#1CAA53', '#FF760D'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Poppins', size: 12 }, padding: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Populate Team Table
+        function populateTeamTable() {
+            const tbody = document.getElementById('teamTable');
+            const total = data.team.reduce((sum, t) => sum + t.requests, 0);
+            
+            data.team.forEach((t, i) => {
+                const percentage = ((t.requests / total) * 100).toFixed(1);
+                const row = document.createElement('tr');
+                row.className = 'border-b border-slate-100 hover:bg-slate-50';
+                row.innerHTML = `
+                    <td class="py-3 px-2 font-medium">${t.name}</td>
+                    <td class="py-3 px-2 text-center font-bold text-[#FF760D]">${t.requests}</td>
+                    <td class="py-3 px-2 text-center text-slate-600">${percentage}%</td>
+                    <td class="py-3 px-2">
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-[#FF760D] rounded-full" style="width: ${percentage}%"></div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Populate Issue Bars
+        function populateIssueBars() {
+            const churnContainer = document.getElementById('churnIssues');
+            const growthContainer = document.getElementById('growthIssues');
+            
+            data.churnIssues.forEach(issue => {
+                const maxVal = Math.max(...data.churnIssues.map(i => i.value));
+                const width = (issue.value / maxVal) * 100;
+                churnContainer.innerHTML += `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-500 w-28 truncate">${issue.name}</span>
+                        <div class="flex-1 h-5 bg-slate-100 rounded overflow-hidden relative">
+                            <div class="h-full rounded" style="width: ${width}%; background-color: ${issue.color}"></div>
+                            <span class="absolute right-2 top-0 text-xs font-bold text-slate-700 leading-5">${issue.value}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            data.growthIssues.forEach(issue => {
+                const maxVal = Math.max(...data.growthIssues.map(i => i.value));
+                const width = issue.value > 0 ? (issue.value / maxVal) * 100 : 0;
+                growthContainer.innerHTML += `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-500 w-28 truncate">${issue.name}</span>
+                        <div class="flex-1 h-5 bg-slate-100 rounded overflow-hidden relative">
+                            <div class="h-full rounded" style="width: ${width}%; background-color: ${issue.color}"></div>
+                            <span class="absolute right-2 top-0 text-xs font-bold text-slate-700 leading-5">${issue.value}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Populate RL/GL AE Table
+        function populateRlglAeTable() {
+            const tbody = document.getElementById('rlglAeTable');
+            
+            data.rlglByAE.forEach(ae => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-slate-100 hover:bg-slate-50';
+                
+                let barColor = '#1CAA53';
+                if (ae.rate < 50) barColor = '#FF760D';
+                else if (ae.rate < 70) barColor = '#FF9000';
+                
+                row.innerHTML = `
+                    <td class="py-3 px-2 font-medium">${ae.name}</td>
+                    <td class="py-3 px-2 text-center font-bold" style="color: ${barColor}">${ae.filled}</td>
+                    <td class="py-3 px-2 text-center text-slate-600">${ae.total}</td>
+                    <td class="py-3 px-2 text-center font-bold" style="color: ${barColor}">${ae.rate}%</td>
+                    <td class="py-3 px-2">
+                        <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full" style="width: ${ae.rate}%; background-color: ${barColor}"></div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const section = btn.dataset.section;
+                
+                // Update nav buttons
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update sections
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+                
+                // Scroll to top of content
+                window.scrollTo({ top: 150, behavior: 'smooth' });
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initPriorityChart();
+            initVolumeChart();
+            initTeamChart();
+            initIssueChart();
+            initIssueCategoryChart();
+            initRiskChart();
+            initRlglPieChart();
+            populateTeamTable();
+            populateIssueBars();
+            populateRlglAeTable();
+        });
+    </script>
+</body>
+</html>
